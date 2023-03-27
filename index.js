@@ -32,7 +32,6 @@ snipster
     add()
   })
 
-
 snipster
   .command('sync')
   .description('sync pre-existing snippets to Snipster')
@@ -58,6 +57,4 @@ if (!['add', 'sync', 'init', 'publish', 'list', 'help', 'version'].includes(proc
   publish()
 }
 
-snipster
-  .version(pkg.version, '-v, --version')
-  .parse(process.argv);
+snipster.version(pkg.version, '-v, --version').parse(process.argv)

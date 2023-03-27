@@ -1,5 +1,5 @@
 const vscodeMatch = language => {
-  switch(language) {
+  switch (language) {
     case 'clj':
     case 'cljs':
     case 'cljc':
@@ -15,7 +15,7 @@ const vscodeMatch = language => {
     case 'f#':
     case 'fs':
     case 'fsi':
-    case 'ml' :
+    case 'ml':
     case 'mli':
     case 'fsx':
     case 'fsscript':

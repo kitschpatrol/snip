@@ -472,6 +472,11 @@
   "resolved" "https://registry.npmjs.org/pkginfo/-/pkginfo-0.4.1.tgz"
   "version" "0.4.1"
 
+"prettier@^2.8.7":
+  "integrity" "sha512-yPngTo3aXUUmyuTjeTUT75txrf+aMh9FiD7q9ZE/i6r0bPb22g4FsE6Y338PQX1bmfy08i9QQCB7/rcUAVntfw=="
+  "resolved" "https://registry.npmjs.org/prettier/-/prettier-2.8.7.tgz"
+  "version" "2.8.7"
+
 "prompt@^1.0.0":
   "integrity" "sha1-jlcSPDlquYiJf7Mn/Trtw+c15P4="
   "resolved" "https://registry.npmjs.org/prompt/-/prompt-1.0.0.tgz"

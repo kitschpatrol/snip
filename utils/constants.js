@@ -11,7 +11,7 @@ const LANGUAGES = [
   { name: 'Clojure', value: 'clj' },
   { name: 'Coffescript', value: 'coffee' },
   { name: 'C#', value: 'csharp' },
-  { name: 'CSS',  value: 'css' },
+  { name: 'CSS', value: 'css' },
   { name: 'C++', value: 'cpp' },
   { name: 'F#', value: 'f#' },
   { name: 'Git', value: 'git' },
@@ -50,9 +50,10 @@ const LANGUAGES = [
   { name: 'XSL', value: 'xsl' },
   { name: 'YAML', value: 'yaml' },
 ]
-const ALL_FILE_PATH = LANGUAGES.reduce((acc, x)  => `${acc}+${x.value}`, '').substr(1)
+const ALL_FILE_PATH = LANGUAGES.reduce((acc, x) => `${acc}+${x.value}`, '').substr(1)
 
-const ALL_SUBLIME = 'source.clojure,source.coffee,source.cs,source.css,source.cpp,source.fs,text.git-commit,source.hbs,text.html,source.js,source.jsx,source.css.less,source.makefile,text.html.markdown,text.html.mustache,source.objc,text.html.php,source.perl,source.powershell,source.razor,source.ruby,source.scss,source.shell,source.typescript,text.xml,source.yaml,source.erlang,source.go,source.groovy,source.haskell,source.java,source.json,text.log.latex,text.tex.latex,text.tex,source.lisp,source.lua,text.html.markdown.multimarkdown,source.matlab,source.ocaml,source.php,source.r,source.regexp.python,source.python,source.ruby.rails,source.regexp,source.ruby,source.scala,source.shell,source.sql,source.stylus,text.plain,text.xml,text.xml.xsl'
+const ALL_SUBLIME =
+  'source.clojure,source.coffee,source.cs,source.css,source.cpp,source.fs,text.git-commit,source.hbs,text.html,source.js,source.jsx,source.css.less,source.makefile,text.html.markdown,text.html.mustache,source.objc,text.html.php,source.perl,source.powershell,source.razor,source.ruby,source.scss,source.shell,source.typescript,text.xml,source.yaml,source.erlang,source.go,source.groovy,source.haskell,source.java,source.json,text.log.latex,text.tex.latex,text.tex,source.lisp,source.lua,text.html.markdown.multimarkdown,source.matlab,source.ocaml,source.php,source.r,source.regexp.python,source.python,source.ruby.rails,source.regexp,source.ruby,source.scala,source.shell,source.sql,source.stylus,text.plain,text.xml,text.xml.xsl'
 
 module.exports = {
   SNIPSTER_PATH,

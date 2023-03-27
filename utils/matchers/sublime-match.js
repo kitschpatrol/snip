@@ -1,18 +1,18 @@
 const { ALL_SUBLIME } = require('../constants')
 
-const sublimeMatch = (language) => {
-  switch(language) {
+const sublimeMatch = language => {
+  switch (language) {
     case 'all':
       return ''
     case 'clj':
     case 'cljs':
     case 'cljc':
-    case 'edn' :
+    case 'edn':
       return 'source.clojure'
     case 'coffee':
     case 'coffeelit':
       return 'source.coffee'
-    case 'cs', 'csharp':
+    case ('cs', 'csharp'):
       return 'source.cs'
     case 'css':
       return 'source.css'

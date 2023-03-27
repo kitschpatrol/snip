@@ -6,7 +6,14 @@ const { atomMatcher, vscodeMatcher, sublimeMatcher } = require('../utils/matcher
 const { atomComment, vscodeComment, sublimeComment } = require('../utils/comments')
 const { files, home, exists, write, read, log } = require('../utils/general')
 const { getSnipsterFiles } = require('../utils/snipster')
-const { SNIPSTER_CONFIG, ATOM_PATH, VSCODE_PATH, SUBLIME_PATH, STYLE_FILE_PATH, ALL_FILE_PATH } = require('../utils/constants')
+const {
+  SNIPSTER_CONFIG,
+  ATOM_PATH,
+  VSCODE_PATH,
+  SUBLIME_PATH,
+  STYLE_FILE_PATH,
+  ALL_FILE_PATH,
+} = require('../utils/constants')
 
 const addSnippetsToEditor = async (snippets, editor) => {
   switch (editor) {
@@ -17,7 +24,7 @@ const addSnippetsToEditor = async (snippets, editor) => {
         for (let prefix in snippets[lang]) {
           formatted[atomMatcher(lang)][prefix] = {
             prefix,
-            body: snippets[lang][prefix]
+            body: snippets[lang][prefix],
           }
         }
       }
@@ -38,16 +45,18 @@ const addSnippetsToEditor = async (snippets, editor) => {
       }
       break
     case 'sublime text':
-      for ( let lang in snippets ) {
-        for ( let prefix in snippets[lang] ) {
+      for (let lang in snippets) {
+        for (let prefix in snippets[lang]) {
           let all = false
-          if (snippets['js'][prefix] && snippets['html'][prefix]) { all = true }
+          if (snippets['js'][prefix] && snippets['html'][prefix]) {
+            all = true
+          }
           const snippetObject = {
             snippet: {
               tabTrigger: prefix,
               scope: all ? sublimeMatcher('all') : sublimeMatcher(lang),
-              content: jsontoxml.cdata(snippets[lang][prefix])
-            }
+              content: jsontoxml.cdata(snippets[lang][prefix]),
+            },
           }
           const content = `${await sublimeComment()}\n${jsontoxml(snippetObject, { prettyPrint: true })}`
           write(`${SUBLIME_PATH}/${prefix}.sublime-snippet`, content)
@@ -58,15 +67,21 @@ const addSnippetsToEditor = async (snippets, editor) => {
 
 const publish = async () => {
   if (!exists(SNIPSTER_CONFIG)) {
-    log('Please set up Snipster with `npx snipster init`'); return;
+    log('Please set up Snipster with `npx snipster init`')
+    return
   }
 
   const snipsterFiles = await getSnipsterFiles()
   const snippets = snipsterFiles.reduce(async (previousPromise, path) => {
     const acc = await previousPromise
-    const langs = path && path.substring(path.lastIndexOf('.') + 1)
-      .toLowerCase().replace('style', STYLE_FILE_PATH)
-      .replace('all', ALL_FILE_PATH).split('+')
+    const langs =
+      path &&
+      path
+        .substring(path.lastIndexOf('.') + 1)
+        .toLowerCase()
+        .replace('style', STYLE_FILE_PATH)
+        .replace('all', ALL_FILE_PATH)
+        .split('+')
     const prefix = path.substring(path.lastIndexOf('/') + 1, path.lastIndexOf('.'))
     const body = await read(path)
 
@@ -87,7 +102,9 @@ const publish = async () => {
 
   let editors = process.argv[3] ? process.argv.slice(3) : settings.editors
   // when coming from the 'add' command, use all editors
-  if (process.argv[2] && process.argv[2] === 'add') { editors = settings.editors }
+  if (process.argv[2] && process.argv[2] === 'add') {
+    editors = settings.editors
+  }
   editors.map(editor => {
     addSnippetsToEditor(snippets, editor.toLowerCase())
   })

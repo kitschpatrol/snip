@@ -1,8 +1,8 @@
-const reverseSublimeMatch = (languageScope) => {
-  switch(languageScope) {
+const reverseSublimeMatch = languageScope => {
+  switch (languageScope) {
     case '':
       return 'all'
-    case 'source.clojure' :
+    case 'source.clojure':
       return 'clj'
     case 'source.coffee':
       return 'coffee'

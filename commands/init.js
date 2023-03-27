@@ -20,7 +20,9 @@ const init = async () => {
 
   success("🚀  Let's set up Snipster\n")
   const settings = await inquirer.prompt(questions.init)
-  settings.editors.map(editor => { sync(editor) })
+  settings.editors.map(editor => {
+    sync(editor)
+  })
 
   write(SNIPSTER_CONFIG, JSON.stringify(settings, null, 2))
   log('Check out https://github.com/jhanstra/snipster/examples for snippet ideas and examples.\n')

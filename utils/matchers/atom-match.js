@@ -1,11 +1,11 @@
-const atomMatcher = (language) => {
-  switch(language) {
+const atomMatcher = language => {
+  switch (language) {
     case 'all':
       return '.text, .source'
     case 'clj':
     case 'cljs':
     case 'cljc':
-    case 'edn' :
+    case 'edn':
       return '.source.clojure'
     case 'coffee':
     case 'coffeelit':

@@ -14,16 +14,17 @@ const success = log => console.log(chalk.green(log))
 const fail = log => console.log(chalk.red(log))
 const log = log => {
   if (typeof log === 'undefined') {
-    console.log(); return
+    console.log()
+    return
   }
-  console.log(chalk.yellow(log)); return
+  console.log(chalk.yellow(log))
+  return
 }
 const home = () => os.homedir()
 
 const exists = path => {
   return fs.existsSync(path)
 }
-
 
 // Options:
 // type: 'filename', 'absPath', 'relPath'
@@ -50,8 +51,7 @@ const files = (dir, options = {}) => {
     let stat = fs.statSync(item)
     if (stat && stat.isDirectory() && levels > 0) {
       results = results.concat(files(item, { levels: levels - 1 }))
-    }
-    else {
+    } else {
       results.push(item)
     }
   })
@@ -60,16 +60,16 @@ const files = (dir, options = {}) => {
       return result.substring(result.lastIndexOf('/') + 1)
     })
   }
-  return results;
+  return results
 }
 
 const create = path => {
   const dirPath = path.substring(0, path.lastIndexOf('/'))
-  return fs.mkdirSync(dirPath, { recursive: true }, (err) => {
+  return fs.mkdirSync(dirPath, { recursive: true }, err => {
     if (err) {
-      throw err;
+      throw err
     }
-  });
+  })
 }
 
 const write = (path, contents) => {
@@ -82,7 +82,7 @@ const write = (path, contents) => {
     fs.writeFileSync(path, contents)
     return
   } catch (err) {
-     fail(err)
+    fail(err)
   }
 }
 

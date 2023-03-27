@@ -8,7 +8,10 @@ const { SNIPSTER_CONFIG } = require('../utils/constants')
 
 const add = async () => {
   const hasConfig = exists(SNIPSTER_CONFIG)
-  if (!hasConfig) { log('Please run `npx snipster init` first to set up Snipster'); return }
+  if (!hasConfig) {
+    log('Please run `npx snipster init` first to set up Snipster')
+    return
+  }
   const settings = await read(SNIPSTER_CONFIG)
   let filename, prefix, lang
   if (process.argv.length > 3) {
@@ -21,24 +24,26 @@ const add = async () => {
 
   // check for a user's preferred editor, otherwise default to vim
   // also extract any args if needed (e.g. if your EDITOR='code -w -n')
-  const userEditor = (process.env.EDITOR || 'vim').split(' ')[0];
+  const userEditor = (process.env.EDITOR || 'vim').split(' ')[0]
   const userEditorArgs = (process.env.EDITOR || '').split(' ').slice(1)
-  
+
   const child = child_process.spawn(userEditor, [...userEditorArgs, `/tmp/${filename}`], {
-    stdio: 'inherit'
+    stdio: 'inherit',
   })
 
   child.on('exit', async function (e, code) {
-    if (e) { fail(e) }
+    if (e) {
+      fail(e)
+    }
     const contents = await read(`/tmp/${filename}`)
     const file = write(`${settings.directory}/added/${filename}`, contents)
     const published = await publish()
     const question2 = await inquirer.prompt(questions.more)
-      if (!question2.more) {
-        log('Okay, exiting...')
-        return
-      }
-      add()
+    if (!question2.more) {
+      log('Okay, exiting...')
+      return
+    }
+    add()
   })
 }
 

@@ -1,8 +1,8 @@
-const reversAtomMatch = (languageScope) => {
-  switch(languageScope) {
+const reversAtomMatch = languageScope => {
+  switch (languageScope) {
     case '.text, .source':
       return 'all'
-    case '.source.clojure' :
+    case '.source.clojure':
       return 'clj'
     case '.source.coffee':
       return 'coffee'

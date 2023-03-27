@@ -21,8 +21,12 @@
     "write": "^0.3.3",
     "xml2js": "^0.4.17"
   },
+  "devDependencies": {
+    "prettier": "^2.8.7"
+  },
   "scripts": {
     "publish": "npm publish",
+    "format": "prettier --write .",
     "install": "npm install -g"
   },
   "bin": {

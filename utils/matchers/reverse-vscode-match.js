@@ -1,6 +1,6 @@
-const reverseVscodeMatch = (languageScope) => {
-  switch(languageScope) {
-    case 'clojure' :
+const reverseVscodeMatch = languageScope => {
+  switch (languageScope) {
+    case 'clojure':
       return 'clj'
     case 'coffeescript':
       return 'coffee'
