@@ -19,9 +19,15 @@ const add = async () => {
     filename = `${question1.prefix}.${question1.langs}`
   }
 
-  const child = child_process.spawn('vim', [`/tmp/${filename}`], {
+  // check for a user's preferred editor, otherwise default to vim
+  // also extract any args if needed (e.g. if your EDITOR='code -w -n')
+  const userEditor = (process.env.EDITOR || 'vim').split(' ')[0];
+  const userEditorArgs = (process.env.EDITOR || '').split(' ').slice(1)
+  
+  const child = child_process.spawn(userEditor, [...userEditorArgs, `/tmp/${filename}`], {
     stdio: 'inherit'
   })
+
   child.on('exit', async function (e, code) {
     if (e) { fail(e) }
     const contents = await read(`/tmp/${filename}`)
