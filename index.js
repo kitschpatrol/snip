@@ -1,6 +1,7 @@
 #!/usr/bin/env node --harmony
 'use strict'
 
+const pkg = require('./package.json')
 const snipster = require('commander')
 
 const init = require('./commands/init')
@@ -53,9 +54,10 @@ snipster
     help()
   })
 
-if (!['add', 'sync', 'init', 'publish', 'list', 'help'].includes(process.argv[2])) {
+if (!['add', 'sync', 'init', 'publish', 'list', 'help', 'version'].includes(process.argv[2])) {
   publish()
 }
 
-snipster.parse(process.argv);
-
+snipster
+  .version(pkg.version, '-v, --version')
+  .parse(process.argv);
