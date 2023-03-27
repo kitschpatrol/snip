@@ -1,10 +1,9 @@
 const columnify = require('columnify')
 const { home, read, files, log } = require('../utils/general')
-const { SNIPSTER_CONFIG } = require('../utils/constants')
+const { getSnipsterFiles } = require('../utils/snipster')
 
 const list = async () => {
-  const settings = await read(SNIPSTER_CONFIG)
-  const paths = files(settings.directory)
+  const paths = await getSnipsterFiles();
   const snippets = paths.map(path => ({
       prefix: path.substring(path.lastIndexOf('/') + 1, path.lastIndexOf('.')),
       language: path.substring(path.lastIndexOf('.') + 1),

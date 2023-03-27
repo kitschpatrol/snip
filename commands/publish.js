@@ -5,6 +5,7 @@ const add = require('./add')
 const { atomMatcher, vscodeMatcher, sublimeMatcher } = require('../utils/matchers')
 const { atomComment, vscodeComment, sublimeComment } = require('../utils/comments')
 const { files, home, exists, write, read, log } = require('../utils/general')
+const { getSnipsterFiles } = require('../utils/snipster')
 const { SNIPSTER_CONFIG, ATOM_PATH, VSCODE_PATH, SUBLIME_PATH, STYLE_FILE_PATH, ALL_FILE_PATH } = require('../utils/constants')
 
 const addSnippetsToEditor = async (snippets, editor) => {
@@ -60,10 +61,8 @@ const publish = async () => {
     log('Please set up Snipster with `npx snipster init`'); return;
   }
 
-  const settings = await read(SNIPSTER_CONFIG)
-  const snipsterFiles = files(settings.directory)
-
-  const snippets = await snipsterFiles.reduce(async (previousPromise, path) => {
+  const snipsterFiles = await getSnipsterFiles()
+  const snippets = snipsterFiles.reduce(async (previousPromise, path) => {
     const acc = await previousPromise
     const langs = path && path.substring(path.lastIndexOf('.') + 1)
       .toLowerCase().replace('style', STYLE_FILE_PATH)
@@ -83,6 +82,8 @@ const publish = async () => {
 
     return acc
   }, {})
+
+  const settings = await read(SNIPSTER_CONFIG)
 
   let editors = process.argv[3] ? process.argv.slice(3) : settings.editors
   // when coming from the 'add' command, use all editors
