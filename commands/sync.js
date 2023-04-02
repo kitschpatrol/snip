@@ -1,7 +1,7 @@
 const cson = require('cson')
 const { parseString } = require('xml2js')
 const { ATOM_PATH, VSCODE_PATH, SUBLIME_PATH, SNIPSTER_PATH, SNIPSTER_CONFIG } = require('../utils/constants')
-const { read, write, home, log, files, fail, copy } = require('../utils/general')
+const { read, write, files, fail, copy } = require('../utils/general')
 const { reverseAtomMatcher, reverseVscodeMatcher, reverseSublimeMatcher } = require('../utils/matchers')
 
 const createSnipsterSnippets = async (snippetsJson, editor) => {
@@ -9,24 +9,23 @@ const createSnipsterSnippets = async (snippetsJson, editor) => {
   if (typeof snippetsJson !== 'object') {
     return null
   }
-  for (let lang in snippetsJson) {
+  for (const lang in snippetsJson) {
     let extension
-    if (editor == 'atom') {
+    if (editor === 'atom') {
       extension = reverseAtomMatcher(lang)
-    } else if (editor == 'vscode') {
+    } else if (editor === 'vscode') {
       extension = reverseVscodeMatcher(lang)
-    } else if (editor == 'sublime') {
+    } else if (editor === 'sublime') {
       extension = reverseSublimeMatcher(lang)
     }
-    for (let prefix in snippetsJson[lang]) {
+    for (const prefix in snippetsJson[lang]) {
       let body = snippetsJson[lang][prefix].body
-      if (editor == 'vscode') {
+      if (editor === 'vscode') {
         body = body.join('\n')
       }
       write(`${settings.directory}/${editor}/${prefix}.${extension}`, body)
     }
   }
-  return
 }
 
 const errorMessage = editor => `Error syncing your pre-existing ${editor} snippets. Do you have ${editor} installed?`
@@ -36,9 +35,9 @@ const sync = async editor => {
     const settings = await read(SNIPSTER_CONFIG)
     settings.editors.map(e => sync(e))
   }
-  const formatted = {}
+
   switch (editor) {
-    case 'Atom':
+    case 'Atom': {
       try {
         copy(ATOM_PATH, `${SNIPSTER_PATH}/backups/atom/${Date.now()}`)
       } catch (e) {
@@ -49,7 +48,8 @@ const sync = async editor => {
       const atomJson = cson.parse(atomCson)
       createSnipsterSnippets(atomJson, 'atom')
       break
-    case 'VSCode':
+    }
+    case 'VSCode': {
       try {
         copy(VSCODE_PATH, `${SNIPSTER_PATH}/backups/vscode/${Date.now()}`)
       } catch (e) {
@@ -66,7 +66,8 @@ const sync = async editor => {
         }, {})
       createSnipsterSnippets(vscodeFormatted, 'vscode')
       break
-    case 'Sublime Text':
+    }
+    case 'Sublime Text': {
       try {
         copy(SUBLIME_PATH, `${SNIPSTER_PATH}/backups/sublime/${Date.now()}`)
       } catch (e) {
@@ -79,10 +80,13 @@ const sync = async editor => {
           const acc = await prevPromise
           const body = await read(`${SUBLIME_PATH}/${file}`)
           parseString(body, (err, res) => {
+            if (err) {
+              console.error(`Error parsing sublime files: ${err}`)
+            }
             const { snippet } = res
-            const lang = (snippet.hasOwnProperty('scope') && snippet.scope[0]) || 'all'
+            const lang = ('scope' in snippet && snippet.scope[0]) || 'all'
             const prefix = snippet.tabTrigger[0]
-            if (!acc.hasOwnProperty(lang)) {
+            if (!(lang in acc)) {
               acc[lang] = {}
             }
             acc[lang][prefix] = {
@@ -95,6 +99,7 @@ const sync = async editor => {
 
       createSnipsterSnippets(sublimeFormatted, 'sublime')
       break
+    }
   }
 }
 

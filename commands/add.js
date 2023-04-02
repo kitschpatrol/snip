@@ -1,9 +1,8 @@
-const child_process = require('child_process')
-const exec = require('child_process').exec
+const { spawn } = require('child_process')
 const inquirer = require('inquirer')
 const publish = require('./publish')
 const questions = require('../utils/questions')
-const { log, read, write, home, fail, exists } = require('../utils/general')
+const { log, read, write, fail, exists } = require('../utils/general')
 const { SNIPSTER_CONFIG } = require('../utils/constants')
 
 const add = async () => {
@@ -13,7 +12,7 @@ const add = async () => {
     return
   }
   const settings = await read(SNIPSTER_CONFIG)
-  let filename, prefix, lang
+  let filename
   if (process.argv.length > 3) {
     filename = process.argv[3]
   } else {
@@ -27,7 +26,7 @@ const add = async () => {
   const userEditor = (process.env.EDITOR || 'vim').split(' ')[0]
   const userEditorArgs = (process.env.EDITOR || '').split(' ').slice(1)
 
-  const child = child_process.spawn(userEditor, [...userEditorArgs, `/tmp/${filename}`], {
+  const child = spawn(userEditor, [...userEditorArgs, `/tmp/${filename}`], {
     stdio: 'inherit',
   })
 
@@ -36,8 +35,8 @@ const add = async () => {
       fail(e)
     }
     const contents = await read(`/tmp/${filename}`)
-    const file = write(`${settings.directory}/added/${filename}`, contents)
-    const published = await publish()
+    write(`${settings.directory}/added/${filename}`, contents)
+    await publish()
     const question2 = await inquirer.prompt(questions.more)
     if (!question2.more) {
       log('Okay, exiting...')

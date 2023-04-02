@@ -1,5 +1,3 @@
-const { ALL_SUBLIME } = require('../constants')
-
 const sublimeMatch = language => {
   switch (language) {
     case 'all':

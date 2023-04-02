@@ -1,5 +1,5 @@
 const columnify = require('columnify')
-const { home, read, files, log } = require('../utils/general')
+const { log } = require('../utils/general')
 const { getSnipsterFiles } = require('../utils/snipster')
 
 const list = async () => {

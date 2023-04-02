@@ -1,3 +1,9 @@
+# Snipster Fork
+
+# Install globally
+
+`npm install -g`
+
 # ✂️ Snipster
 
 ### Text editor snippets are finally easy enough to manage.

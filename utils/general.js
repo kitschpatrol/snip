@@ -1,14 +1,9 @@
 // This file is for general node utils that can/should be extracted to a separate repo soon
-const process = require('process')
 const os = require('os')
 const fs = require('fs-extra')
-const path = require('path')
 const chalk = require('chalk')
 const stripJsonComments = require('strip-json-comments')
 const { promisify } = require('util')
-
-// need to promisify async node functions to convert them from callbacks to promises
-const writeFile = promisify(fs.writeFile)
 
 const success = log => console.log(chalk.green(log))
 const fail = log => console.log(chalk.red(log))
@@ -18,7 +13,6 @@ const log = log => {
     return
   }
   console.log(chalk.yellow(log))
-  return
 }
 const home = () => os.homedir()
 
@@ -48,12 +42,13 @@ const files = (dir, options = {}) => {
   let results = []
   fs.readdirSync(dir).map(item => {
     item = dir + '/' + item
-    let stat = fs.statSync(item)
+    const stat = fs.statSync(item)
     if (stat && stat.isDirectory() && levels > 0) {
       results = results.concat(files(item, { levels: levels - 1 }))
     } else {
       results.push(item)
     }
+    return null
   })
   if (type === 'filename' || type === 'filenames') {
     return results.map(result => {

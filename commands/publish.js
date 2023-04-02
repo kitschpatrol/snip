@@ -1,39 +1,33 @@
 const cson = require('cson')
 const jsontoxml = require('jsontoxml')
 // const init = require('./init')
-const add = require('./add')
 const { atomMatcher, vscodeMatcher, sublimeMatcher } = require('../utils/matchers')
 const { atomComment, vscodeComment, sublimeComment } = require('../utils/comments')
-const { files, home, exists, write, read, log } = require('../utils/general')
+const { home, exists, write, read, log } = require('../utils/general')
 const { getSnipsterFiles } = require('../utils/snipster')
-const {
-  SNIPSTER_CONFIG,
-  ATOM_PATH,
-  VSCODE_PATH,
-  SUBLIME_PATH,
-  STYLE_FILE_PATH,
-  ALL_FILE_PATH,
-} = require('../utils/constants')
+const { SNIPSTER_CONFIG, VSCODE_PATH, SUBLIME_PATH, STYLE_FILE_PATH, ALL_FILE_PATH } = require('../utils/constants')
 
 const addSnippetsToEditor = async (snippets, editor) => {
   switch (editor) {
     case 'atom':
-      const formatted = {}
-      for (let lang in snippets) {
-        formatted[atomMatcher(lang)] = {}
-        for (let prefix in snippets[lang]) {
-          formatted[atomMatcher(lang)][prefix] = {
-            prefix,
-            body: snippets[lang][prefix],
+      {
+        const formatted = {}
+        for (const lang in snippets) {
+          formatted[atomMatcher(lang)] = {}
+          for (const prefix in snippets[lang]) {
+            formatted[atomMatcher(lang)][prefix] = {
+              prefix,
+              body: snippets[lang][prefix],
+            }
           }
         }
+        write(`${home()}/.atom/snippets.cson`, `${await atomComment()}\n${cson.stringify(formatted, null, 2)}`)
       }
-      write(`${home()}/.atom/snippets.cson`, `${await atomComment()}\n${cson.stringify(formatted, null, 2)}`)
       break
     case 'vscode':
-      for (let lang in snippets) {
+      for (const lang in snippets) {
         const formatted = {}
-        for (let prefix in snippets[lang]) {
+        for (const prefix in snippets[lang]) {
           formatted[prefix] = {
             prefix,
             body: snippets[lang][prefix].split('\n'),
@@ -45,10 +39,10 @@ const addSnippetsToEditor = async (snippets, editor) => {
       }
       break
     case 'sublime text':
-      for (let lang in snippets) {
-        for (let prefix in snippets[lang]) {
+      for (const lang in snippets) {
+        for (const prefix in snippets[lang]) {
           let all = false
-          if (snippets['js'][prefix] && snippets['html'][prefix]) {
+          if (snippets.js[prefix] && snippets.html[prefix]) {
             all = true
           }
           const snippetObject = {
@@ -87,7 +81,7 @@ const publish = async () => {
 
     // for each language in the extension, add the snippet
     langs.forEach(lang => {
-      if (acc && acc.hasOwnProperty(lang)) {
+      if (acc && lang in hasOwnProperty) {
         acc[lang][prefix] = body
       } else {
         acc[lang] = {}
@@ -107,6 +101,7 @@ const publish = async () => {
   }
   editors.map(editor => {
     addSnippetsToEditor(snippets, editor.toLowerCase())
+    return null
   })
 }
 

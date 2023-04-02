@@ -49,7 +49,6 @@ const reverseSublimeMatch = languageScope => {
     case 'source.shell':
       return 'sh'
     case 'source.ts':
-    case 'source.ts':
     case 'source.tsx':
       return 'ts'
     case 'text.xml':

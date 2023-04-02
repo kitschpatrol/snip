@@ -1,4 +1,4 @@
-const { read, home } = require('../general')
+const { read } = require('../general')
 const { SNIPSTER_CONFIG } = require('../constants')
 
 const atomComment = async () => {

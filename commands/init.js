@@ -1,11 +1,7 @@
-const process = require('process')
-const fs = require('fs-extra')
-const path = require('path')
 const inquirer = require('inquirer')
-const { success, log, exists, home, write } = require('../utils/general')
-const { LANGUAGES, SNIPSTER_CONFIG } = require('../utils/constants')
+const { success, log, exists, write } = require('../utils/general')
+const { SNIPSTER_CONFIG } = require('../utils/constants')
 const questions = require('../utils/questions')
-const add = require('./add')
 const publish = require('./publish')
 const sync = require('./sync')
 
@@ -22,6 +18,7 @@ const init = async () => {
   const settings = await inquirer.prompt(questions.init)
   settings.editors.map(editor => {
     sync(editor)
+    return null
   })
 
   write(SNIPSTER_CONFIG, JSON.stringify(settings, null, 2))
