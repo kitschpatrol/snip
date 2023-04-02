@@ -4,6 +4,7 @@ const publish = require('./publish')
 const questions = require('../utils/questions')
 const { log, read, write, fail, exists } = require('../utils/general')
 const { SNIPSTER_CONFIG } = require('../utils/constants')
+const resolve = require('resolve-dir')
 
 const add = async () => {
   const hasConfig = exists(SNIPSTER_CONFIG)
@@ -35,7 +36,7 @@ const add = async () => {
       fail(e)
     }
     const contents = await read(`/tmp/${filename}`)
-    write(`${settings.directory}/added/${filename}`, contents)
+    write(`${resolve(settings.directory)}/added/${filename}`, contents)
     await publish()
     const question2 = await inquirer.prompt(questions.more)
     if (!question2.more) {

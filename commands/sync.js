@@ -3,6 +3,7 @@ const { parseString } = require('xml2js')
 const { ATOM_PATH, VSCODE_PATH, SUBLIME_PATH, SNIPSTER_PATH, SNIPSTER_CONFIG } = require('../utils/constants')
 const { read, write, files, fail, copy } = require('../utils/general')
 const { reverseAtomMatcher, reverseVscodeMatcher, reverseSublimeMatcher } = require('../utils/matchers')
+const resolve = require('resolve-dir')
 
 const createSnipsterSnippets = async (snippetsJson, editor) => {
   const settings = await read(SNIPSTER_CONFIG)
@@ -23,7 +24,7 @@ const createSnipsterSnippets = async (snippetsJson, editor) => {
       if (editor === 'vscode') {
         body = body.join('\n')
       }
-      write(`${settings.directory}/${editor}/${prefix}.${extension}`, body)
+      write(`${resolve(settings.directory)}/${editor}/${prefix}.${extension}`, body)
     }
   }
 }
@@ -81,7 +82,7 @@ const sync = async editor => {
           const body = await read(`${SUBLIME_PATH}/${file}`)
           parseString(body, (err, res) => {
             if (err) {
-              console.error(`Error parsing sublime files: ${err}`)
+              fail(`Error parsing sublime files: ${err}`)
             }
             const { snippet } = res
             const lang = ('scope' in snippet && snippet.scope[0]) || 'all'
