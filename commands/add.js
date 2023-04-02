@@ -36,7 +36,7 @@ const add = async () => {
       fail(e)
     }
     const contents = await read(`/tmp/${filename}`)
-    write(`${resolve(settings.directory)}/added/${filename}`, contents)
+    await write(`${resolve(settings.directory)}/added/${filename}`, contents)
     await publish()
     const question2 = await inquirer.prompt(questions.more)
     if (!question2.more) {

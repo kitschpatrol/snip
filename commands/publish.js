@@ -21,7 +21,7 @@ const addSnippetsToEditor = async (snippets, editor) => {
             }
           }
         }
-        write(`${home()}/.atom/snippets.cson`, `${await atomComment()}\n${cson.stringify(formatted, null, 2)}`)
+        await write(`${home()}/.atom/snippets.cson`, `${await atomComment()}\n${cson.stringify(formatted, null, 2)}`)
       }
       break
     case 'vscode':
@@ -35,7 +35,7 @@ const addSnippetsToEditor = async (snippets, editor) => {
         }
         const vscodeLang = vscodeMatcher(lang)
         const content = `${await vscodeComment()}\n${JSON.stringify(formatted, null, 2)}`
-        write(`${VSCODE_PATH}/${vscodeLang}.json`, content)
+        await write(`${VSCODE_PATH}/${vscodeLang}.json`, content)
       }
       break
     case 'sublime text':
@@ -53,7 +53,7 @@ const addSnippetsToEditor = async (snippets, editor) => {
             },
           }
           const content = `${await sublimeComment()}\n${jsontoxml(snippetObject, { prettyPrint: true })}`
-          write(`${SUBLIME_PATH}/${prefix}.sublime-snippet`, content)
+          await write(`${SUBLIME_PATH}/${prefix}.sublime-snippet`, content)
         }
       }
   }

@@ -24,7 +24,7 @@ const createSnipsterSnippets = async (snippetsJson, editor) => {
       if (editor === 'vscode') {
         body = body.join('\n')
       }
-      write(`${resolve(settings.directory)}/${editor}/${prefix}.${extension}`, body)
+      await write(`${resolve(settings.directory)}/${editor}/${prefix}.${extension}`, body)
     }
   }
 }

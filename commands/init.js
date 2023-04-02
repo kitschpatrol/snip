@@ -21,7 +21,7 @@ const init = async () => {
     return null
   })
 
-  write(SNIPSTER_CONFIG, JSON.stringify(settings, null, 2))
+  await write(SNIPSTER_CONFIG, JSON.stringify(settings, null, 2))
   log('Check out https://github.com/jhanstra/snipster/examples for snippet ideas and examples.\n')
   log('You can run `snipster add lorem.md` to add a new snippet.\n')
   publish()
