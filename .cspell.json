@@ -2,5 +2,5 @@
 	"$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
 	"import": "@kitschpatrol/cspell-config",
 	"ignorePaths": ["*vscode-language-map.json", "bin/*"],
-	"words": ["snip", "gcode", "Hanstra", "snipignore"]
+	"words": ["gcode", "Hanstra", "snipignore"]
 }

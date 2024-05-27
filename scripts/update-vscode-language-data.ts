@@ -20,6 +20,17 @@ import fs from 'node:fs/promises'
 
 type LanguageMap = Map<string, Set<string>>
 
+async function getResolvedPromises<T>(promises: Array<Promise<T>>, logErrors = false) {
+	const results = await Promise.allSettled(promises)
+	return results
+		.filter((result) => {
+			if (result.status === 'fulfilled') return true
+			if (logErrors) console.error('Error from getResolvedPromises:\n', result.reason)
+			return false
+		})
+		.map((result) => (result as PromiseFulfilledResult<T>).value)
+}
+
 // Extension manifest type specification:
 // https://github.com/microsoft/vscode/blob/main/src/vs/platform/extensions/common/extensions.ts#L264-L291
 // https://stackoverflow.com/questions/70629292/does-the-vscode-extension-package-json-have-an-official-schema/78536803#78536803
@@ -59,7 +70,7 @@ type MarketplaceExtension = {
 	extensionName: string
 	versions: Array<{
 		files: Array<{
-			source: string
+			source?: string
 		}>
 		lastUpdated: string
 		version: string
@@ -176,6 +187,18 @@ export async function getExtensions(
 	}
 }
 
+async function getManifestFromUrl(manifestUrl: string): Promise<VSCodeExtensionManifest> {
+	const manifestResponse = await fetch(manifestUrl)
+
+	if (manifestResponse.status !== 200) {
+		throw new Error(`Manifest not found at: ${manifestUrl}`)
+	}
+
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+	const manifest = await manifestResponse.json()
+	return manifest as VSCodeExtensionManifest
+}
+
 // Gets bundled extensions from VSCode source
 async function getProgrammingLanguageIdsFromBundledExtensions(
 	extensionLanguageIds: LanguageMap = new Map(),
@@ -183,7 +206,6 @@ async function getProgrammingLanguageIdsFromBundledExtensions(
 	// Get list of bundled extensions from extensions folder
 	const response = await fetch('https://api.github.com/repos/microsoft/vscode/contents/extensions')
 	const directoryList = (await response.json()) as VSCodeExtensionInfo[]
-	let totalChecked = 0
 
 	const manifestUrls = directoryList.flatMap((value) => {
 		if (value.type === 'dir') {
@@ -195,18 +217,16 @@ async function getProgrammingLanguageIdsFromBundledExtensions(
 		return []
 	})
 
-	for (const manifestUrl of manifestUrls) {
-		totalChecked += 1
-		console.log(`Checking vscode manifest ${totalChecked} / ${manifestUrls.length}: ${manifestUrl}`)
-		try {
-			const manifestResponse = await fetch(manifestUrl)
+	const manifests = await getResolvedPromises(
+		manifestUrls.map(async (manifestUrl) => getManifestFromUrl(manifestUrl)),
+		true,
+	)
 
-			const manifest = (await manifestResponse.json()) as VSCodeExtensionManifest
-			extensionLanguageIds = addLanguagesToMapFromManifest(extensionLanguageIds, manifest)
-		} catch (error) {
-			console.error(`Warning: No manifest at: ${manifestUrl} (Error: ${String(error)})`)
-		}
+	for (const manifest of manifests) {
+		extensionLanguageIds = addLanguagesToMapFromManifest(extensionLanguageIds, manifest)
 	}
+
+	console.log(`${extensionLanguageIds.size} language ids found in bundled extensions`)
 
 	return extensionLanguageIds
 }
@@ -224,8 +244,6 @@ async function getLanguageIDsFromExtensionsMarketplace(
 	const { totalCount } = await getExtensions(1, 1, programmingLanguagesCategoryOnly)
 	const totalPages = Math.ceil(Math.min(totalCount, maxResults) / pageSize)
 
-	let totalChecked = 0
-
 	console.log(
 		`Found ${totalCount} results to be queried across ${totalPages} requests at ${pageSize} results per page`,
 	)
@@ -237,31 +255,22 @@ async function getLanguageIDsFromExtensionsMarketplace(
 			programmingLanguagesCategoryOnly,
 		)
 
-		for (const extension of extensions) {
-			totalChecked += 1
+		const manifestUrls = extensions.flatMap((extension) =>
+			extension.versions.map((version) => version.files[0]?.source ?? ''),
+		)
 
-			const manifestUrl = extension?.versions[0]?.files[0]?.source
+		const manifests = await getResolvedPromises(
+			manifestUrls.map(async (manifestUrl) => getManifestFromUrl(manifestUrl)),
+			true,
+		)
 
-			if (manifestUrl === undefined) {
-				console.error(
-					`Error: Issue getting manifest url from extension ${JSON.stringify(extension, undefined, 2)})`,
-				)
-			} else {
-				try {
-					console.log(
-						`Checking marketplace manifest ${totalChecked} / ${totalCount}: ${manifestUrl}`,
-					)
-					const response = await fetch(manifestUrl)
-					const manifest = (await response.json()) as VSCodeExtensionManifest
-
-					extensionLanguageIds = addLanguagesToMapFromManifest(extensionLanguageIds, manifest)
-				} catch (error) {
-					console.error(
-						`Error: Issue getting manifest for ${manifestUrl} (Error: ${String(error)})`,
-					)
-				}
-			}
+		for (const manifest of manifests) {
+			extensionLanguageIds = addLanguagesToMapFromManifest(extensionLanguageIds, manifest)
 		}
+
+		console.log(
+			`${extensionLanguageIds.size} language ids found, on page ${currentPage} of ${totalPages}`,
+		)
 	}
 
 	return extensionLanguageIds
@@ -286,7 +295,7 @@ async function updateVsCodeLanguageData() {
 
 	// Save to file in data folder
 	await fs.writeFile(
-		'./data/vscode-language-map.json',
+		'./src/generated/vscode-language-map.json',
 		JSON.stringify(extensionLanguageIdsObject, undefined, 2),
 		{
 			flag: 'w',
