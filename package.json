@@ -39,7 +39,8 @@
 	"keywords": [
 		"cli",
 		"snippets",
-		"vscode"
+		"vscode",
+		"npm-package"
 	],
 	"scripts": {
 		"build": "tsx ./scripts/build-cli.ts",
