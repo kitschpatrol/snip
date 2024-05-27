@@ -51,6 +51,11 @@ const questions = {
     },
     {
       type: 'input',
+      name: 'description',
+      message: 'A quick description of your snippet (optional):',
+    },
+    {
+      type: 'input',
       name: 'langs',
       message: `Language (for multiple languages, use 'all' or 'style' or separate with a plus mark, like 'html+css+js':`,
     },

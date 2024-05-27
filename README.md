@@ -1,6 +1,16 @@
 # Snipster Fork
 
-# Install globally
+## TODO
+
+- [x] Support for `$EDITOR`
+- [x] Support for `.snipsterignore` file to allow snippets in root of snippet directory
+- [x] Support config paths with `~`
+- [ ] Sync from snippets provided by VSCode extensions
+- [ ] Descriptions in filenames (what delimeter? `--` ?)
+- [ ] Sync from a manifest of extension URLs?
+- [ ] Sync file extensions from [languages.yml](https://raw.githubusercontent.com/github/linguist/master/lib/linguist/languages.yml)
+
+## Install globally
 
 `npm install -g`
 

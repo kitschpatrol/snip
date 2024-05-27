@@ -3,23 +3,25 @@ const inquirer = require('inquirer')
 const publish = require('./publish')
 const questions = require('../utils/questions')
 const { log, read, write, fail, exists } = require('../utils/general')
-const { SNIPSTER_CONFIG } = require('../utils/constants')
+const { SNIPSTER_CONFIG_PATH, DESCRIPTION_DELIMETER } = require('../utils/constants')
 const resolve = require('resolve-dir')
 
 const add = async () => {
-  const hasConfig = exists(SNIPSTER_CONFIG)
+  const hasConfig = exists(SNIPSTER_CONFIG_PATH)
   if (!hasConfig) {
     log('Please run `npx snipster init` first to set up Snipster')
     return
   }
-  const settings = await read(SNIPSTER_CONFIG)
+  const settings = await read(SNIPSTER_CONFIG_PATH)
   let filename
   if (process.argv.length > 3) {
     filename = process.argv[3]
   } else {
     log('\n✂️  Add a snippet:')
     const question1 = await inquirer.prompt(questions.add)
-    filename = `${question1.prefix}.${question1.langs}`
+    filename = `${question1.prefix}${question1.description ? DESCRIPTION_DELIMETER + question1.description : ''}.${
+      question1.langs
+    }`
   }
 
   // check for a user's preferred editor, otherwise default to vim

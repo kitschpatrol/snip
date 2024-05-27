@@ -1,8 +1,8 @@
 const { read } = require('../general')
-const { SNIPSTER_CONFIG } = require('../constants')
+const { SNIPSTER_CONFIG_PATH } = require('../constants')
 
 const vscodeComment = async () => {
-  const settings = await read(SNIPSTER_CONFIG)
+  const settings = await read(SNIPSTER_CONFIG_PATH)
   return `
 /*******************************************************************************
 *               _              _                                               *

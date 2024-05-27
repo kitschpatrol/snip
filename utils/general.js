@@ -14,6 +14,7 @@ const log = log => {
   }
   console.log(chalk.yellow(log))
 }
+
 const home = () => os.homedir()
 
 const exists = path => {
@@ -88,7 +89,9 @@ const read = async (path, options) => {
     try {
       const json = JSON.parse(stripJsonComments(res))
       return json
-    } catch (jsonErr) {}
+    } catch (jsonErr) {
+      console.error('json error')
+    }
     return res
   } catch (err) {
     fail(err)
