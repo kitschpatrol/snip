@@ -2,26 +2,133 @@
 
 <!-- title -->
 
-# snip-cli
+# @kitschpatrol/snip
 
 <!-- /title -->
 
-- <https://github.com/kolorobot/vite-node-starter>
-- <https://github.com/nielse63/eslint-airbnb-base-prettier-typescript-example>
+<!-- badges -->
 
-Rename to awsnip
+[![NPM Package @kitschpatrol/snip](https://img.shields.io/npm/v/@kitschpatrol/snip.svg)](https://npmjs.com/package/@kitschpatrol/snip)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## Commander
+<!-- /badges -->
 
-Config files...
+<!-- short-description -->
 
-<https://github.com/tj/commander.js/issues/1843>
+**A CLI tool for snippet management.**
 
-## Completions
+<!-- /short-description -->
 
-- <https://github.com/withfig/autocomplete-tools/blob/main/integrations/commander/README.md>
+> \[!CAUTION]
+> This tool is a work in progress, certain commands are not yet implemented and
+> others might behave unpredictably. I don't recommend using it until a 1.0.0
+> release.
 
-## Import Sorting
+## Overview
 
-- <https://medium.com/weekly-webtips/how-to-sort-imports-like-a-pro-in-typescript-4ee8afd7258a>
-- <https://github.com/trivago/prettier-plugin-sort-imports>
+Snip helps you create, edit, manage, and synchronize code snippets from the command line. Synchronize to (and possibly eventually from) editors like VSCode.
+
+Snip is a fork of [Jared Hanstra](https://github.com/jhanstra)'s [snipster](https://github.com/jhanstra/snipster). Snip includes both some [additions](#background) and some [regressions](#the-future) vs. the original.
+
+## Getting started
+
+### Dependencies
+
+The `snip` CLI tool requires Node 18+.
+
+### Installation
+
+Install globally for access across your system:
+
+```sh
+npm install --global @kitschpatrol/snip
+```
+
+## Usage
+
+TK
+
+### CLI
+
+<!-- cli-help -->
+
+```txt
+Usage: snip [options] [command]
+
+A CLI tool for snippet management.
+
+Options:
+  -v, --version                   output the version number
+  -c, --config <path>             path to configuration file (default:
+                                  "/Users/mika/.config/snip/config.json", env:
+                                  SNIP_CONFIG_FILE)
+  -l, --library <path>            path to library directory where snippets are
+                                  stored (default: "/Users/mika/.snip", env:
+                                  SNIP_LIBRARY_DIR)
+  -d, --debug                     extra logging for troubleshooting (default:
+                                  false, env: SNIP_DEBUG)
+  -h, --help                      display help for command
+
+Commands:
+  add [filename]                  add a snippet
+  cd                              launch a shell in the snippets directory
+  list                            list all snippets
+  setup                           set up snip
+  sync-to-editors [editors...]    sync snippets to editors
+  sync-from-editors [editors...]  sync snippets from editors (not yet
+                                  implemented)
+  help [command]                  display help for command
+```
+
+<!-- /cli-help -->
+
+#### Examples
+
+TK
+
+## Background
+
+Snip is a fork of [Jared Hanstra](https://github.com/jhanstra)'s [snipster](https://github.com/jhanstra/snipster).
+
+Modifications include:
+
+- A monosyllabic name 😅.
+- Migration from JavaScript → TypeScript + Zod.
+- Migration from CommonJS → ES Modules.
+- Migration from Yarn → PNPM.
+- Added `.ignore` file support.
+- Added `$EDITOR` support for creating new snippets.
+- Added support for `~` in paths.
+- Implemented a new automated language ID aggregation approach based on scraping plugin manifests from the VSCode marketplace.
+- Added support for snippet descriptions — stored in the snippet file name itself.
+
+## The future
+
+- [ ] Figure out what to do about [Fig integration](https://github.com/withfig/autocomplete-tools/blob/main/integrations/commander/README.md>).
+- [ ] Additional editor adapters
+- [ ] Sync-from-editor migration fixes
+- [ ] Cosmiconfig
+
+## Maintainers
+
+[@kitschpatrol](https://github.com/kitschpatrol)
+
+## Acknowledgements
+
+[Jared Hanstra](https://github.com/jhanstra) is the author of the original [snipster](https://github.com/jhanstra/snipster) project on which Snip is based.
+
+<!-- contributing -->
+
+## Contributing
+
+[Issues](https://github.com/kitschpatrol/snip/issues) and pull requests are welcome.
+
+<!-- /contributing -->
+
+<!-- license -->
+
+## License
+
+[MIT](license.txt) © Eric Mika
+
+<!-- /license -->

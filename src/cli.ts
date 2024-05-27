@@ -32,7 +32,7 @@ const program = createCommand()
 			.makeOptionMandatory(),
 	)
 	.addOption(
-		createOption('-l, --library <path>', 'path to library directory where snips are stored')
+		createOption('-l, --library <path>', 'path to library directory where snippets are stored')
 			.env('SNIP_LIBRARY_DIR')
 			.default(snipDefaultLibraryDirectory)
 			.argParser(zodParser(filePath))
@@ -114,7 +114,7 @@ const program = createCommand()
 	)
 	.addCommand(
 		createCommand('sync-from-editors')
-			.description('sync snippets from editors')
+			.description('sync snippets from editors (not yet implemented)')
 			.argument('[editors...]', 'editors to sync to', ['vscode'])
 			.action(async (editors, _, options) => {
 				// TODO can you fish defaults out of commander's options?

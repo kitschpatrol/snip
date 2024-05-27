@@ -55,9 +55,8 @@ export class VscodeAdapter {
 		}),
 	)
 
-	private static readonly vscodeUserExtensionsDir = `${homeDirectory}/.vscode/extensions`
-
 	// Constants
+	private static readonly vscodeUserExtensionsDir = `${homeDirectory}/.vscode/extensions`
 	private static readonly vscodeUserSnippetsDir = `${homeDirectory}/Library/Application Support/Code/User/snippets`
 
 	// Transformers
@@ -93,7 +92,7 @@ export class VscodeAdapter {
 		// Log.debug(content);
 		// TODO flag overwrite
 		// TODO check directory exists
-		await fs.writeFile(`${this.vscodeUserSnippetsDir}/snip.code-snippets`, content)
+		await fs.writeFile(`${VscodeAdapter.vscodeUserSnippetsDir}/snip.code-snippets`, content)
 
 		log.debug(`Wrote ${snips.length} snips to VSCode`)
 	}
@@ -200,24 +199,29 @@ export class VscodeAdapter {
 	// eslint-disable-next-line @typescript-eslint/require-await
 	private static async getSnipsFromUser(): Promise<z.infer<typeof snipsSchema>> {
 		// TODO
+		// Back up existing vscode snippets
+		// try {
+		// 	await fs.copy(
+		// 		VscodeAdapter.vscodeUserSnippetsDir,
+		// 		`${SNIP_LIBRARY_DIR}/backups/vscode/${Date.now()}`,
+		// 	)
+		// } catch (error) {
+		// 	console.log(`Error backing up user snippets: ${String(error)}`)
+		// }
+
+		// const vscodeFiles = await fs.readdir(VscodeAdapter.vscodeUserSnippetsDir)
+		// const vscodeFormattedFiles = vscodeFiles
+		// 	.filter((f) => f !== '.DS_Store')
+		// 	.reduce(async (previous, file) => {
+		// 		const acc = previous
+		// 		const lang = file.split('.')[0]
+		// 		acc[lang] = await fs.read(`${VscodeAdapter.vscodeUserSnippetsDir}/${file}`)
+		// 		return acc
+		// 	}, {})
+
+		console.warn('getSnipsFromUser not implemented')
 
 		return []
-
-		// Sync user snippets
-		// try {
-		//   copy(VSCODE_USER_SNIPPETS_PATH, `${SNIPSTER_PATH}/backups/vscode/${Date.now()}`)
-		// } catch (e) {
-		//   fail(errorMessage('VSCode'))
-		// }
-		// const vscodeFiles = files(VSCODE_USER_SNIPPETS_PATH, { type: 'filenames' })
-		// const vscodeFormatted = await vscodeFiles
-		//   .filter(f => f !== '.DS_Store')
-		//   .reduce(async (previousPromise, file) => {
-		//     const acc = await previousPromise
-		//     const lang = file.split('.')[0]
-		//     acc[lang] = await read(`${VSCODE_USER_SNIPPETS_PATH}/${file}`)
-		//     return acc
-		//   }, {})
 	}
 
 	// Helpers

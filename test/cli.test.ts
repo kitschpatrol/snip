@@ -3,9 +3,9 @@ import { describe, expect, it } from 'vitest'
 
 describe('Snip CLI', () => {
 	it('Program reports version', async () => {
-		const { code, stdout } = await execa('node', ['./dist/cli.js', '--version'])
+		const { exitCode, stdout } = await execa('node', ['./bin/cli.js', '--version'])
 
-		expect(stdout[0]).toMatch(/^\d+\.\d+\.\d+$/)
-		expect(code).toBe(0)
+		expect(stdout).toMatch(/^\d+\.\d+\.\d+$/)
+		expect(exitCode).toBe(0)
 	})
 })
