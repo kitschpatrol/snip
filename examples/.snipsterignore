@@ -1,3 +1,0 @@
-# Exclude certain files and folders
-# from detection by the snipster library
-.DS_Store
