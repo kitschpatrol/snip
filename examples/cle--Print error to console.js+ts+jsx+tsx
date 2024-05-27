@@ -1,0 +1,1 @@
+console.error(`error: ${String(error)}`)$0

@@ -22,3 +22,4 @@ package-lock.json
 # Customizations
 bin/
 src/generated/package-info.json
+examples/
