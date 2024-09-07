@@ -4,17 +4,15 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 
+import { createCommand, createOption } from '@commander-js/extra-typings'
 import { add, cd, list, setup, syncFromEditors, syncToEditors } from './commands/index.js'
-import { snipDefaultConfigFile, snipDefaultLibraryDirectory } from './defaults.js'
+import { SNIP_DEFAULT_CONFIG_FILE, SNIP_DEFAULT_LIBRARY_DIRECTORY } from './defaults.js'
 import packageInfo from './generated/package-info.json' assert { type: 'json' }
 import log from './logger.js'
-import { filePath } from './schemas.js'
-import { createCommand, createOption } from '@commander-js/extra-typings'
-import { addCompletionSpecCommand } from '@fig/complete-commander'
-import { type Command } from 'commander' // The type from extra-typings isn't working...
+import { filePath } from './schemas.js' // The type from extra-typings isn't working...
 import fs from 'fs-extra'
-import process from 'node:process'
 import { type z } from 'zod'
+import { HOME_DIRECTORY } from './constants.js'
 
 function zodParser<T extends z.ZodTypeAny>(schema: T): (value: string) => z.infer<T> {
 	return (value) => schema.parse(value)
@@ -27,14 +25,14 @@ const program = createCommand()
 	.addOption(
 		createOption('-c, --config <path>', 'path to configuration file')
 			.env('SNIP_CONFIG_FILE')
-			.default(snipDefaultConfigFile)
+			.default(SNIP_DEFAULT_CONFIG_FILE.replace(HOME_DIRECTORY, '~'))
 			.argParser(zodParser(filePath))
 			.makeOptionMandatory(),
 	)
 	.addOption(
 		createOption('-l, --library <path>', 'path to library directory where snippets are stored')
 			.env('SNIP_LIBRARY_DIR')
-			.default(snipDefaultLibraryDirectory)
+			.default(SNIP_DEFAULT_LIBRARY_DIRECTORY.replace(HOME_DIRECTORY, '~'))
 			.argParser(zodParser(filePath))
 			.makeOptionMandatory(),
 	)
@@ -98,8 +96,8 @@ const program = createCommand()
 				// TODO can you fish defaults out of commander's options?
 				await setup(
 					options.optsWithGlobals().config as string,
-					snipDefaultConfigFile,
-					snipDefaultLibraryDirectory,
+					SNIP_DEFAULT_CONFIG_FILE,
+					SNIP_DEFAULT_LIBRARY_DIRECTORY,
 				)
 			}),
 	)
@@ -122,10 +120,5 @@ const program = createCommand()
 			}),
 	)
 	.showHelpAfterError()
-
-// Fig spec
-if (process.env.NODE_ENV === 'development') {
-	addCompletionSpecCommand(program as unknown as Command)
-}
 
 await program.parseAsync()

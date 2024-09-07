@@ -1,5 +1,5 @@
-import { VscodeAdapter } from '../../src/adapters/vscode'
 import { describe, expect, it } from 'vitest'
+import { VscodeAdapter } from '../../src/adapters/vscode'
 
 describe('Snip VSCode Adapter', () => {
 	it('Reads snippets from extensions', async () => {

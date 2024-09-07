@@ -60,10 +60,10 @@ A CLI tool for snippet management.
 Options:
   -v, --version                   output the version number
   -c, --config <path>             path to configuration file (default:
-                                  "/Users/mika/.config/snip/config.json", env:
+                                  "~/.config/snip/config.json", env:
                                   SNIP_CONFIG_FILE)
   -l, --library <path>            path to library directory where snippets are
-                                  stored (default: "/Users/mika/.snip", env:
+                                  stored (default: "~/.snip", env:
                                   SNIP_LIBRARY_DIR)
   -d, --debug                     extra logging for troubleshooting (default:
                                   false, env: SNIP_DEBUG)
@@ -104,7 +104,7 @@ Modifications include:
 
 ## The future
 
-- [ ] Figure out what to do about [Fig integration](https://github.com/withfig/autocomplete-tools/blob/main/integrations/commander/README.md>).
+- [ ] Explore Amazon Q (née Fig) auto-complete generation and integration
 - [ ] Additional editor adapters
 - [ ] Sync-from-editor migration fixes
 - [ ] Cosmiconfig
@@ -113,7 +113,7 @@ Modifications include:
 
 [@kitschpatrol](https://github.com/kitschpatrol)
 
-## Acknowledgements
+## Acknowledgments
 
 [Jared Hanstra](https://github.com/jhanstra) is the author of the original [snipster](https://github.com/jhanstra/snipster) project on which Snip is based.
 

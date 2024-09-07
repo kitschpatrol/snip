@@ -24,17 +24,16 @@
 		}
 	],
 	"license": "MIT",
-	"packageManager": "pnpm@9.1.2+sha512.127dc83b9ea10c32be65d22a8efb4a65fb952e8fefbdfded39bdc3c97efc32d31b48b00420df2c1187ace28c921c902f0cb5a134a4d032b8b5295cbfa2c681e2",
+	"packageManager": "pnpm@9.9.0",
 	"engines": {
-		"node": ">=18.0.0",
-		"pnpm": ">=8.0.0"
+		"node": "^18.17.0 || >=20.5.0",
+		"pnpm": ">=9.0.0"
 	},
 	"bin": {
-		"snip": "./bin/cli.js"
+		"snip": "./dist/cli.js"
 	},
-	"main": "./bin/cli.js",
 	"files": [
-		"bin/*"
+		"dist/*"
 	],
 	"keywords": [
 		"cli",
@@ -43,41 +42,40 @@
 		"npm-package"
 	],
 	"scripts": {
-		"build": "tsx ./scripts/build-cli.ts",
-		"fig:generate": "npm run build && NODE_ENV=development node bin/cli.js generate-fig-spec > /tmp/snip.ts && npx @fig/publish-spec -p /tmp/snip.ts && rm /tmp/snip.ts",
+		"build": "pkgroll --clean-dist --minify",
+		"clean": "rimraf ./pnpm-lock.yaml && git clean -fdX",
 		"fix": "pnpm shared-config --fix",
 		"lint": "pnpm shared-config --lint",
 		"prebuild": "jq '{command: .bin | keys[], version, description}' package.json > ./src/generated/package-info.json",
 		"release": "pnpm run build && pnpm bumpp --commit 'Release: %s' && pnpm publish --otp $(op read 'op://Personal/Npmjs/one-time password?attribute=otp')",
-		"start": "node ./bin/cli.js",
+		"start": "node ./dist/cli.js",
 		"test": "vitest",
 		"update-language-data": "tsx ./scripts/update-vscode-language-data.ts"
 	},
 	"dependencies": {
 		"@commander-js/extra-typings": "^12.1.0",
-		"commander": "^12.1.0",
-		"execa": "^9.1.0",
-		"fs-extra": "^11.2.0",
-		"ignore-walk": "^6.0.5",
-		"inquirer": "^9.2.22"
-	},
-	"devDependencies": {
-		"@fig/complete-commander": "^3.0.0",
-		"@kitschpatrol/shared-config": "^4.6.6",
 		"@types/fs-extra": "^11.0.4",
 		"@types/ignore-walk": "^4.0.3",
 		"@types/inquirer": "^9.0.7",
-		"@types/node": "^20.12.12",
-		"bumpp": "^9.4.1",
+		"commander": "^12.1.0",
+		"execa": "^9.3.1",
+		"fs-extra": "^11.2.0",
+		"ignore-walk": "^7.0.0",
+		"inquirer": "^10.2.2"
+	},
+	"devDependencies": {
+		"@kitschpatrol/shared-config": "^4.7.5",
+		"@types/node": "^20.16.5",
+		"bumpp": "^9.5.2",
 		"chalk": "^5.3.0",
 		"date-fns": "^3.6.0",
-		"esbuild": "^0.21.4",
-		"node-jq": "^4.4.0",
-		"npm-run-all": "^4.1.5",
-		"tslog": "^4.9.2",
-		"tsx": "^4.11.0",
-		"typescript": "^5.4.5",
-		"vitest": "^1.6.0",
+		"node-jq": "^6.0.1",
+		"pkgroll": "^2.4.2",
+		"rimraf": "^6.0.1",
+		"tslog": "^4.9.3",
+		"tsx": "^4.19.0",
+		"typescript": "^5.5.4",
+		"vitest": "^2.0.5",
 		"zod": "^3.23.8"
 	},
 	"publishConfig": {

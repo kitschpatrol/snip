@@ -1,6 +1,6 @@
-import log from '../logger.js'
 import { execa } from 'execa'
 import { env } from 'node:process'
+import log from '../logger.js'
 
 export async function cd(libraryPath: string) {
 	if (env.SHELL) {

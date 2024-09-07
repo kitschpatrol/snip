@@ -10,7 +10,7 @@ module.exports = {
 			// Some weird inconsistency between VSCode and CLI eslint execution
 			files: ['./src/cli.ts'],
 			rules: {
-				'n/shebang': 'off',
+				'n/hashbang': 'off',
 				'@typescript-eslint/no-unsafe-call': 'off',
 			},
 		},

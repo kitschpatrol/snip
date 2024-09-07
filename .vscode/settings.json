@@ -1,29 +1,4 @@
 {
-	"explorer.fileNesting.enabled": true,
-	"explorer.fileNesting.expand": false,
-	"explorer.fileNesting.patterns": {
-		".env": ".env.*",
-		"package.json": ".*.cjs, .*.js, .*.json, .*.mjs, .*.toml, .*.ts, .*.yaml, .*.yml, .*ignore, .*rc, *config.cjs, *config.js, *config.json, *config.mjs, *config.toml, *config.ts, *config.yaml, *config.yml, lerna.json, netlify.toml, package-lock.json, , pnpm*, turbo.json, vercel.json, workspace*, wrangler.toml, yarn.lock, yarn*",
-		"readme.md": "authors*, backers*, changelog*, citation*, code_of_conduct*, codeowners*, contributing*, contributors*, copying*, credits*, governance*, history*, license*, maintainers*, release_notes*, security*, sponsors*"
-	},
-	"cSpell.enabled": true,
-	"cSpell.workspaceRootPath": ".",
-	"editor.codeActionsOnSave": {
-		"source.fixAll": "explicit"
-	},
-	"eslint.enable": true,
-	"eslint.validate": [
-		"astro",
-		"html",
-		"javascript",
-		"javascriptreact",
-		"markdown",
-		"mdx",
-		"svelte",
-		"typescript",
-		"typescriptreact"
-	],
-	"typescript.tsdk": "node_modules/typescript/lib",
 	"[astro]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
@@ -39,18 +14,43 @@
 	"[svelte]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
+	"cSpell.enabled": true,
+	"cSpell.workspaceRootPath": ".",
+	"editor.codeActionsOnSave": {
+		"source.fixAll": "explicit"
+	},
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
 	"editor.formatOnSave": true,
+	"eslint.enable": true,
+	"eslint.validate": [
+		"javascript",
+		"javascriptreact",
+		"typescript",
+		"typescriptreact",
+		"svelte",
+		"astro",
+		"markdown",
+		"mdx",
+		"html"
+	],
+	"explorer.fileNesting.enabled": true,
+	"explorer.fileNesting.expand": false,
+	"explorer.fileNesting.patterns": {
+		".env": ".env.*",
+		"package.json": ".*.cjs, .*.js, .*.json, .*.mjs, .*.toml, .*.ts, .*.yaml, .*.yml, .*ignore, .*rc, *config.cjs, *config.js, *config.json, *config.mjs, *config.toml, *config.ts, *config.yaml, *config.yml, *workspace.cjs, *workspace.js, *workspace.json, *workspace.mjs, *workspace.toml, *workspace.ts, *workspace.yaml, *workspace.yml lerna.json, netlify.toml, package-lock.json, pnpm*, turbo.json, vercel.json, workspace*, wrangler.toml, yarn.lock, yarn*",
+		"readme.md": "authors*, backers*, changelog*, citation*, code_of_conduct*, contributing*, contributors*, copying*, credits*, governance*, history*, license*, maintainers*, release_notes*, security*, sponsors*"
+	},
+
 	"prettier.documentSelectors": [
-		"**/.eslintignore",
-		"**/.node-version",
-		"**/.npmrc",
-		"**/.prettierignore",
-		"**/*.astro",
 		"**/*.rb",
-		"**/*.svelte"
+		"**/*.astro",
+		"**/*.svelte",
+		"**/.prettierignore",
+		"**/.npmrc",
+		"**/.eslintignore"
 	],
 	"prettier.enable": true,
 	"stylelint.enable": true,
-	"stylelint.validate": ["css", "html", "svelte", "astro"]
+	"stylelint.validate": ["css", "html", "svelte", "astro"],
+	"typescript.tsdk": "node_modules/typescript/lib"
 }

@@ -165,14 +165,15 @@ export async function getExtensions(
 		requestBody.filters[0].criteria.push({ filterType: 5, value: 'Programming Languages' }) // Category
 	}
 
+	// eslint-disable-next-line n/no-unsupported-features/node-builtins
 	const response = await fetch(
 		'https://marketplace.visualstudio.com/_apis/public/gallery/extensionquery',
 		{
 			body: JSON.stringify(requestBody),
 			headers: {
 				Accept: 'application/json;api-version=7.1-preview.1;excludeUrls=true',
-				'Accept-Language': 'en-US,en;q=0.9',
 				'Accept-encoding': 'gzip, deflate, br',
+				'Accept-Language': 'en-US,en;q=0.9',
 				'Content-Type': 'application/json',
 			},
 			method: 'POST',
@@ -188,6 +189,7 @@ export async function getExtensions(
 }
 
 async function getManifestFromUrl(manifestUrl: string): Promise<VSCodeExtensionManifest> {
+	// eslint-disable-next-line n/no-unsupported-features/node-builtins
 	const manifestResponse = await fetch(manifestUrl)
 
 	if (manifestResponse.status !== 200) {
@@ -204,6 +206,7 @@ async function getProgrammingLanguageIdsFromBundledExtensions(
 	extensionLanguageIds: LanguageMap = new Map(),
 ): Promise<LanguageMap> {
 	// Get list of bundled extensions from extensions folder
+	// eslint-disable-next-line n/no-unsupported-features/node-builtins
 	const response = await fetch('https://api.github.com/repos/microsoft/vscode/contents/extensions')
 	const directoryList = (await response.json()) as VSCodeExtensionInfo[]
 

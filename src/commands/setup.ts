@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import log from '../logger.js'
 import fs from 'fs-extra'
 import inquirer from 'inquirer'
 import path from 'node:path'
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import log from '../logger.js'
 
 export async function setup(
 	configPath: string,

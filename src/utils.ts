@@ -1,14 +1,14 @@
-import { allExtension, descriptionDelimiter } from './constants.js'
-import log from './logger.js'
-import { type snipSchema, type snipsSchema } from './schemas.js'
 import fs from 'fs-extra'
 import walk from 'ignore-walk'
 import path from 'node:path'
 import { type z } from 'zod'
+import { ALL_EXTENSION, DESCRIPTION_DELIMITER } from './constants.js'
+import log from './logger.js'
+import { type snipSchema, type snipsSchema } from './schemas.js'
 
 export function filenameFromSnip(snip: z.infer<typeof snipSchema>): string {
-	const extension = snip.all ? allExtension : snip.extensions?.join('+')
-	const description = snip.description ? descriptionDelimiter + snip.description : ''
+	const extension = snip.all ? ALL_EXTENSION : snip.extensions?.join('+')
+	const description = snip.description ? DESCRIPTION_DELIMITER + snip.description : ''
 	return `${snip.prefix}${description}.${extension}`
 }
 
@@ -19,10 +19,10 @@ export async function loadSnip(
 	// TODO what about extensions with multiple dots?
 	// TODO what about multiple instances of the DELIMITER?
 	const rawExtension = path.extname(file)
-	const [prefix, description] = path.basename(file, rawExtension).split(descriptionDelimiter, 2)
+	const [prefix, description] = path.basename(file, rawExtension).split(DESCRIPTION_DELIMITER, 2)
 	const rawExtensions = rawExtension.replace('.', '').toLowerCase().split('+')
-	const all = rawExtensions.includes(allExtension)
-	const extensions = rawExtensions.filter((value) => value !== allExtension)
+	const all = rawExtensions.includes(ALL_EXTENSION)
+	const extensions = rawExtensions.filter((value) => value !== ALL_EXTENSION)
 
 	const body = await fs.readFile(libraryPath + '/' + file, { encoding: 'utf8' })
 

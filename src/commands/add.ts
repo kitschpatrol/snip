@@ -1,11 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { descriptionDelimiter, tempDirectory } from '../constants.js'
-import log from '../logger.js'
 import { execa } from 'execa'
 import fs from 'fs-extra'
 import inquirer from 'inquirer'
 import { env } from 'node:process'
+import { DESCRIPTION_DELIMITER, TEMP_DIRECTORY } from '../constants.js'
+import log from '../logger.js'
 
 export async function add(libraryPath: string, filename?: string) {
 	log.debug(`Adding to library ${libraryPath}`)
@@ -33,7 +31,7 @@ export async function add(libraryPath: string, filename?: string) {
 
 		// TODO intermediate step as Snip object
 		filename = `${answers.prefix}${
-			answers.description ? descriptionDelimiter + (answers.description as string).trim() : ''
+			answers.description ? DESCRIPTION_DELIMITER + (answers.description as string).trim() : ''
 		}.${(answers.langs as string).trim().toLowerCase()}`
 	}
 
@@ -42,14 +40,14 @@ export async function add(libraryPath: string, filename?: string) {
 	const userEditor = (env.EDITOR ?? 'vim').split(' ')[0]
 	const userEditorArgs = (env.EDITOR ?? '').split(' ').slice(1)
 
-	await execa(userEditor, [...userEditorArgs, `${tempDirectory}/${filename}`], {
+	await execa(userEditor, [...userEditorArgs, `${TEMP_DIRECTORY}/${filename}`], {
 		stdio: 'inherit',
 	})
 
 	// TODO prompt overwrite
 	// TODO try catch
 	await fs.ensureDir(libraryPath)
-	await fs.move(`${tempDirectory}/${filename}`, `${libraryPath}/${filename}`, {
+	await fs.move(`${TEMP_DIRECTORY}/${filename}`, `${libraryPath}/${filename}`, {
 		overwrite: true,
 	})
 
