@@ -1,6 +1,6 @@
 {
 	"name": "@kitschpatrol/snip",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"type": "module",
 	"description": "A CLI tool for snippet management.",
 	"repository": {
