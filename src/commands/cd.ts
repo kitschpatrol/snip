@@ -1,8 +1,11 @@
 import { execa } from 'execa'
 import { env } from 'node:process'
+import untildify from 'untildify'
 import log from '../logger.js'
 
 export async function cd(libraryPath: string) {
+	libraryPath = untildify(libraryPath)
+
 	if (env.SHELL) {
 		await execa(env.SHELL, ['-i'], {
 			cwd: libraryPath,

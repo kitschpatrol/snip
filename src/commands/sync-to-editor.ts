@@ -1,9 +1,11 @@
+import untildify from 'untildify'
 import { VscodeAdapter } from '../adapters/vscode.js'
 import log from '../logger.js'
 import { allSnips } from '../utils.js'
 
 export async function syncToEditors(libraryPath: string, destinationEditors: string[]) {
 	log.debug(`syncing snippets from ${libraryPath} to ${String(destinationEditors)}`)
+	libraryPath = untildify(libraryPath)
 
 	// Get all the snippets
 	const snips = await allSnips(libraryPath)

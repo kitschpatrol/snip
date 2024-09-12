@@ -11,6 +11,7 @@ import packageInfo from './generated/package-info.json' assert { type: 'json' }
 import log from './logger.js'
 import { filePath } from './schemas.js' // The type from extra-typings isn't working...
 import fs from 'fs-extra'
+import untildify from 'untildify'
 import { type z } from 'zod'
 import { HOME_DIRECTORY } from './constants.js'
 
@@ -42,8 +43,14 @@ const program = createCommand()
 			.default(false),
 	)
 	.hook('preSubcommand', async (hookedCommand, subCommand) => {
+		// Set initial logging level
+		if (hookedCommand.opts().debug) {
+			log.setDebug(true)
+			log.warn('debug mode enabled, expect extra logging')
+		}
+
 		// Hook to load config from file if available
-		const configPath = hookedCommand.opts().config
+		const configPath = untildify(hookedCommand.opts().config)
 		log.debug(`loading config from ${configPath}`)
 
 		if (await fs.exists(configPath)) {
@@ -61,7 +68,7 @@ const program = createCommand()
 		}
 
 		// Set logging level
-		if (hookedCommand.opts().debug) {
+		if (!log.getDebug() && hookedCommand.opts().debug) {
 			log.setDebug(true)
 			log.warn('debug mode enabled, expect extra logging')
 		}

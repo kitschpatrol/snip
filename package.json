@@ -43,7 +43,7 @@
 	],
 	"scripts": {
 		"build": "pkgroll --clean-dist --minify",
-		"clean": "rimraf ./pnpm-lock.yaml && git clean -fdX",
+		"clean": "rimraf ./pnpm-lock.yaml ; git clean -fdX",
 		"fix": "pnpm shared-config --fix",
 		"lint": "pnpm shared-config --lint",
 		"prebuild": "jq '{command: .bin | keys[], version, description}' package.json > ./src/generated/package-info.json",
@@ -75,6 +75,7 @@
 		"tslog": "^4.9.3",
 		"tsx": "^4.19.0",
 		"typescript": "^5.5.4",
+		"untildify": "^5.0.0",
 		"vitest": "^2.0.5",
 		"zod": "^3.23.8"
 	},

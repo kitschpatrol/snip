@@ -2,11 +2,13 @@ import { execa } from 'execa'
 import fs from 'fs-extra'
 import inquirer from 'inquirer'
 import { env } from 'node:process'
+import untildify from 'untildify'
 import { DESCRIPTION_DELIMITER, TEMP_DIRECTORY } from '../constants.js'
 import log from '../logger.js'
 
 export async function add(libraryPath: string, filename?: string) {
 	log.debug(`Adding to library ${libraryPath}`)
+	libraryPath = untildify(libraryPath)
 
 	// TODO validate filename with zod...
 

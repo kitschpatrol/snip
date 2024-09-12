@@ -28,6 +28,10 @@ class Logger extends BaseLogger<unknown> {
 		return this.instance
 	}
 
+	public getDebug(): boolean {
+		return Logger.getInstance().settings.minLevel === 0
+	}
+
 	public setDebug(debug: boolean): void {
 		if (debug) {
 			Logger.getInstance().settings.minLevel = 0 // Silly

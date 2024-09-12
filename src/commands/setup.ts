@@ -1,6 +1,7 @@
 import fs from 'fs-extra'
 import inquirer from 'inquirer'
 import path from 'node:path'
+import untildify from 'untildify'
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import log from '../logger.js'
 
@@ -9,6 +10,10 @@ export async function setup(
 	defaultConfigPath: string,
 	defaultLibraryPath: string,
 ) {
+	configPath = untildify(configPath)
+	defaultConfigPath = untildify(defaultConfigPath)
+	defaultLibraryPath = untildify(defaultLibraryPath)
+
 	let answers
 
 	// Ask before overwriting existing
