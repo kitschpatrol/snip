@@ -46,7 +46,7 @@
 		"clean": "rimraf ./pnpm-lock.yaml ; git clean -fdX",
 		"fix": "pnpm shared-config --fix",
 		"lint": "pnpm shared-config --lint",
-		"release": "pnpm run build && pnpm bumpp --commit 'Release: %s' && pnpm publish --otp $(op read 'op://Personal/Npmjs/one-time password?attribute=otp')",
+		"release": "pnpm bumpp --commit 'Release: %s' && pnpm build && pnpm publish --otp $(op read 'op://Personal/Npmjs/one-time password?attribute=otp')",
 		"start": "node ./dist/cli.js",
 		"test": "vitest",
 		"update-language-data": "tsx ./scripts/update-vscode-language-data.ts"
