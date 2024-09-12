@@ -46,7 +46,6 @@
 		"clean": "rimraf ./pnpm-lock.yaml ; git clean -fdX",
 		"fix": "pnpm shared-config --fix",
 		"lint": "pnpm shared-config --lint",
-		"prebuild": "jq '{command: .bin | keys[], version, description}' package.json > ./src/generated/package-info.json",
 		"release": "pnpm run build && pnpm bumpp --commit 'Release: %s' && pnpm publish --otp $(op read 'op://Personal/Npmjs/one-time password?attribute=otp')",
 		"start": "node ./dist/cli.js",
 		"test": "vitest",

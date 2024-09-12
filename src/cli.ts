@@ -5,9 +5,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 
 import { createCommand, createOption } from '@commander-js/extra-typings'
+import { bin, description, version } from '../package.json'
 import { add, cd, list, setup, syncFromEditors, syncToEditors } from './commands/index.js'
 import { SNIP_DEFAULT_CONFIG_FILE, SNIP_DEFAULT_LIBRARY_DIRECTORY } from './defaults.js'
-import packageInfo from './generated/package-info.json' assert { type: 'json' }
 import log from './logger.js'
 import { filePath } from './schemas.js' // The type from extra-typings isn't working...
 import fs from 'fs-extra'
@@ -20,9 +20,9 @@ function zodParser<T extends z.ZodTypeAny>(schema: T): (value: string) => z.infe
 }
 
 const program = createCommand()
-	.name(packageInfo.command)
-	.description(packageInfo.description)
-	.version(packageInfo.version, '-v, --version')
+	.name(Object.keys(bin)[0])
+	.description(description)
+	.version(version, '-v, --version')
 	.addOption(
 		createOption('-c, --config <path>', 'path to configuration file')
 			.env('SNIP_CONFIG_FILE')
