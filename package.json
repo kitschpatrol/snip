@@ -3,15 +3,9 @@
 	"version": "0.0.5",
 	"type": "module",
 	"description": "A CLI tool for snippet management.",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/kitschpatrol/snip.git"
-	},
+	"repository": "github:kitschpatrol/snip",
 	"homepage": "https://github.com/kitschpatrol/snip",
-	"bugs": {
-		"url": "https://github.com/kitschpatrol/snip/issues",
-		"email": "eric@ericmika.com"
-	},
+	"bugs": "https://github.com/kitschpatrol/snip/issues",
 	"author": {
 		"name": "Eric Mika",
 		"email": "eric@ericmika.com",
@@ -26,7 +20,7 @@
 	"license": "MIT",
 	"packageManager": "pnpm@9.10.0",
 	"engines": {
-		"node": "^18.17.0 || >=20.5.0",
+		"node": ">=20.5.0",
 		"pnpm": ">=9.0.0"
 	},
 	"bin": {
@@ -43,10 +37,10 @@
 	],
 	"scripts": {
 		"build": "pkgroll --clean-dist --minify",
-		"clean": "rimraf ./pnpm-lock.yaml ; git clean -fdX",
-		"fix": "pnpm shared-config --fix",
-		"lint": "pnpm shared-config --lint",
-		"release": "pnpm bumpp --commit 'Release: %s' && pnpm build && pnpm publish --otp $(op read 'op://Personal/Npmjs/one-time password?attribute=otp')",
+		"clean": "git rm -f pnpm-lock.yaml ; git clean -fdX",
+		"fix": "shared-config --fix",
+		"lint": "shared-config --lint",
+		"release": "bumpp --commit 'Release: %s' && pnpm run build && pnpm publish --otp $(op read 'op://Personal/Npmjs/one-time password?attribute=otp')",
 		"start": "node ./dist/cli.js",
 		"test": "vitest",
 		"update-language-data": "tsx ./scripts/update-vscode-language-data.ts"
@@ -63,19 +57,18 @@
 		"inquirer": "^10.2.2"
 	},
 	"devDependencies": {
-		"@kitschpatrol/shared-config": "^4.7.5",
-		"@types/node": "^20.16.5",
+		"@kitschpatrol/shared-config": "^4.7.9",
+		"@types/node": "20.5.0",
 		"bumpp": "^9.5.2",
 		"chalk": "^5.3.0",
 		"date-fns": "^3.6.0",
 		"node-jq": "^6.0.1",
 		"pkgroll": "^2.5.0",
-		"rimraf": "^6.0.1",
 		"tslog": "^4.9.3",
 		"tsx": "^4.19.1",
 		"typescript": "^5.6.2",
 		"untildify": "^5.0.0",
-		"vitest": "^2.1.0",
+		"vitest": "^2.1.1",
 		"zod": "^3.23.8"
 	},
 	"publishConfig": {

@@ -5,15 +5,15 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 
 import { createCommand, createOption } from '@commander-js/extra-typings'
-import { bin, description, version } from '../package.json'
-import { add, cd, list, setup, syncFromEditors, syncToEditors } from './commands/index.js'
-import { SNIP_DEFAULT_CONFIG_FILE, SNIP_DEFAULT_LIBRARY_DIRECTORY } from './defaults.js'
-import log from './logger.js'
-import { filePath } from './schemas.js' // The type from extra-typings isn't working...
 import fs from 'fs-extra'
 import untildify from 'untildify'
 import { type z } from 'zod'
+import { bin, description, version } from '../package.json'
+import { add, cd, list, setup, syncFromEditors, syncToEditors } from './commands/index.js' // The type from extra-typings isn't working...
 import { HOME_DIRECTORY } from './constants.js'
+import { SNIP_DEFAULT_CONFIG_FILE, SNIP_DEFAULT_LIBRARY_DIRECTORY } from './defaults.js'
+import log from './logger.js'
+import { filePath } from './schemas.js'
 
 function zodParser<T extends z.ZodTypeAny>(schema: T): (value: string) => z.infer<T> {
 	return (value) => schema.parse(value)
