@@ -79,21 +79,24 @@ const program = createCommand()
 			.argument('[filename]', 'name of snippet')
 			// TODO break down args, and allow body to be passed in
 			.action(async (filename, _, options) => {
-				await add(options.optsWithGlobals().library as string, filename)
+				await add(
+					(options.optsWithGlobals() as Record<string, unknown>).library as string,
+					filename,
+				)
 			}),
 	)
 	.addCommand(
 		createCommand('cd')
 			.description('launch a shell in the snippets directory')
 			.action(async (_, options) => {
-				await cd(options.optsWithGlobals().library as string)
+				await cd((options.optsWithGlobals() as Record<string, unknown>).library as string)
 			}),
 	)
 	.addCommand(
 		createCommand('list')
 			.description('list all snippets')
 			.action(async (_, options) => {
-				await list(options.optsWithGlobals().library as string)
+				await list((options.optsWithGlobals() as Record<string, unknown>).library as string)
 			}),
 	)
 	.addCommand(
@@ -102,7 +105,7 @@ const program = createCommand()
 			.action(async (_, options) => {
 				// TODO can you fish defaults out of commander's options?
 				await setup(
-					options.optsWithGlobals().config as string,
+					(options.optsWithGlobals() as Record<string, unknown>).config as string,
 					SNIP_DEFAULT_CONFIG_FILE,
 					SNIP_DEFAULT_LIBRARY_DIRECTORY,
 				)
@@ -114,7 +117,10 @@ const program = createCommand()
 			.argument('[editors...]', 'editors to sync to', ['vscode'])
 			.action(async (editors, _, options) => {
 				// TODO can you fish defaults out of commander's options?
-				await syncToEditors(options.optsWithGlobals().library as string, editors)
+				await syncToEditors(
+					(options.optsWithGlobals() as Record<string, unknown>).library as string,
+					editors,
+				)
 			}),
 	)
 	.addCommand(
@@ -123,7 +129,10 @@ const program = createCommand()
 			.argument('[editors...]', 'editors to sync to', ['vscode'])
 			.action(async (editors, _, options) => {
 				// TODO can you fish defaults out of commander's options?
-				await syncFromEditors(editors, options.optsWithGlobals().library as string)
+				await syncFromEditors(
+					editors,
+					(options.optsWithGlobals() as Record<string, unknown>).library as string,
+				)
 			}),
 	)
 	.showHelpAfterError()
