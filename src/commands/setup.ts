@@ -1,10 +1,14 @@
+/* eslint-disable ts/no-unsafe-assignment */
+
 import fs from 'fs-extra'
 import inquirer from 'inquirer'
 import path from 'node:path'
 import untildify from 'untildify'
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import log from '../logger.js'
 
+/**
+ * Interactively sets up a new snip library.
+ */
 export async function setup(
 	configPath: string,
 	defaultConfigPath: string,

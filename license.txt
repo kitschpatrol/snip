@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2023 - 2024 Eric Mika
+Copyright (c) 2023-2025 Eric Mika
 
 Based on the MIT-licensed "Snipster" project by Jared Hanstra
 

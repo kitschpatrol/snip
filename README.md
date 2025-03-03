@@ -26,7 +26,7 @@
 
 ## Overview
 
-Snip helps you create, edit, manage, and synchronize code snippets from the command line. Synchronize to (and possibly eventually from) editors like VSCode.
+Snip helps you create, edit, manage, and synchronize code snippets from the command line. Synchronize to (and possibly eventually from) editors like VS Code.
 
 Snip is a fork of [Jared Hanstra](https://github.com/jhanstra)'s [snipster](https://github.com/jhanstra/snipster). Snip includes both some [additions](#background) and some [regressions](#the-future) vs. the original.
 
@@ -99,7 +99,7 @@ Modifications include:
 - Added `.ignore` file support.
 - Added `$EDITOR` support for creating new snippets.
 - Added support for `~` in paths.
-- Implemented a new automated language ID aggregation approach based on scraping plugin manifests from the VSCode marketplace.
+- Implemented a new automated language ID aggregation approach based on scraping plugin manifests from the VS Code marketplace.
 - Added support for snippet descriptions — stored in the snippet file name itself.
 
 ## The future

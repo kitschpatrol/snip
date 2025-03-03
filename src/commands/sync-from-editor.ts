@@ -2,6 +2,9 @@ import untildify from 'untildify'
 import { VscodeAdapter } from '../adapters/vscode.js'
 import log from '../logger.js'
 
+/**
+ * Syncs snippets from the specified editors to the specified snip library.
+ */
 export async function syncFromEditors(sourceEditors: string[], libraryPath: string) {
 	log.debug(`syncing snippets from ${JSON.stringify(sourceEditors)} to ${libraryPath}`)
 	libraryPath = untildify(libraryPath)

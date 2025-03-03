@@ -1,17 +1,17 @@
-/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable ts/naming-convention */
 
 // Builds a map associating file extensions with vscode language IDs
-// Checks all extensions bundled with VSCode, and also all extensions in
-// the "Programming Languages" category on the VSCode marketplace
+// Checks all extensions bundled with VS Code, and also all extensions in
+// the "Programming Languages" category on the VS Code marketplace
 // Saves resulting associations to a JSON file with the format:
 // {
 //  "file extension": ["vscodeLanguageId", "vscodeLanguageId"...]
 // }
 // This ensures that snip files associated with various file extensions are correctly associated with
-// the right VSCode languageIDs in the global VSCode snippets file snip writes
+// the right VS Code languageIDs in the global VS Code snippets file snip writes
 // Arguably we could just create this map from the user's installed extensions, but if a user installs
-// a language extension after syncing their snippets to VSCode, then they would not have the correct
-// associations for their new extension in their global VSCode snippets file (TODO do it anyway and merge with the map...)
+// a language extension after syncing their snippets to VS Code, then they would not have the correct
+// associations for their new extension in their global VS Code snippets file (TODO do it anyway and merge with the map...)
 // Information relevant to the undocumented marketplace.visualstudio.com/_apis endpoints:
 // https://github.com/microsoft/vscode/blob/main/src/vs/platform/extensionManagement/common/extensionGalleryService.ts
 // Feasibility of marketplace API access encouraged by:
@@ -34,7 +34,7 @@ async function getResolvedPromises<T>(promises: Array<Promise<T>>, logErrors = f
 // Extension manifest type specification:
 // https://github.com/microsoft/vscode/blob/main/src/vs/platform/extensions/common/extensions.ts#L264-L291
 // https://stackoverflow.com/questions/70629292/does-the-vscode-extension-package-json-have-an-official-schema/78536803#78536803
-// This type is available in the VSCode source code, but it's buried and I can't get it out of the available packages...
+// This type is available in the VS Code source code, but it's buried and I can't get it out of the available packages...
 // There's a lot more to the manifest, but this is what we touch
 type VSCodeExtensionManifest = {
 	contributes?: {
@@ -118,6 +118,7 @@ function addLanguagesToMapFromManifest(
 	}
 
 	for (const language of manifest.contributes.languages) {
+		// eslint-disable-next-line ts/no-unnecessary-condition
 		for (const extension of cleanExtensions(language.extensions ?? [])) {
 			if (!languageMap.has(extension)) {
 				languageMap.set(extension, new Set())
@@ -130,7 +131,9 @@ function addLanguagesToMapFromManifest(
 	return languageMap
 }
 
-// Gets extensions from the marketplace
+/**
+ * Gets extensions from the marketplace
+ */
 export async function getExtensions(
 	pageNumber = 1,
 	pageSize = 100,
@@ -165,7 +168,7 @@ export async function getExtensions(
 		requestBody.filters[0].criteria.push({ filterType: 5, value: 'Programming Languages' }) // Category
 	}
 
-	// eslint-disable-next-line n/no-unsupported-features/node-builtins
+	// eslint-disable-next-line node/no-unsupported-features/node-builtins
 	const response = await fetch(
 		'https://marketplace.visualstudio.com/_apis/public/gallery/extensionquery',
 		{
@@ -189,24 +192,24 @@ export async function getExtensions(
 }
 
 async function getManifestFromUrl(manifestUrl: string): Promise<VSCodeExtensionManifest> {
-	// eslint-disable-next-line n/no-unsupported-features/node-builtins
+	// eslint-disable-next-line node/no-unsupported-features/node-builtins
 	const manifestResponse = await fetch(manifestUrl)
 
 	if (manifestResponse.status !== 200) {
 		throw new Error(`Manifest not found at: ${manifestUrl}`)
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+	// eslint-disable-next-line ts/no-unsafe-assignment
 	const manifest = await manifestResponse.json()
 	return manifest as VSCodeExtensionManifest
 }
 
-// Gets bundled extensions from VSCode source
+// Gets bundled extensions from VS Code source
 async function getProgrammingLanguageIdsFromBundledExtensions(
 	extensionLanguageIds: LanguageMap = new Map(),
 ): Promise<LanguageMap> {
 	// Get list of bundled extensions from extensions folder
-	// eslint-disable-next-line n/no-unsupported-features/node-builtins
+	// eslint-disable-next-line node/no-unsupported-features/node-builtins
 	const response = await fetch('https://api.github.com/repos/microsoft/vscode/contents/extensions')
 	const directoryList = (await response.json()) as VSCodeExtensionInfo[]
 

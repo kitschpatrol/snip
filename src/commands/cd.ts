@@ -3,6 +3,9 @@ import { env } from 'node:process'
 import untildify from 'untildify'
 import log from '../logger.js'
 
+/**
+ * Opens a shell in the specified snip library.
+ */
 export async function cd(libraryPath: string) {
 	libraryPath = untildify(libraryPath)
 

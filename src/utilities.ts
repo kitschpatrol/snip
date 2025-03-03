@@ -6,12 +6,19 @@ import { ALL_EXTENSION, DESCRIPTION_DELIMITER } from './constants.js'
 import log from './logger.js'
 import { type snipSchema, type snipsSchema } from './schemas.js'
 
+/**
+ * Constructs a safe filename from a snip object.
+ */
 export function filenameFromSnip(snip: z.infer<typeof snipSchema>): string {
 	const extension = snip.all ? ALL_EXTENSION : snip.extensions?.join('+')
 	const description = snip.description ? DESCRIPTION_DELIMITER + snip.description : ''
 	return `${snip.prefix}${description}.${extension}`
 }
 
+/**
+ * Loads a snip from a file.
+ * @public
+ */
 export async function loadSnip(
 	libraryPath: string,
 	file: string,
@@ -37,6 +44,9 @@ export async function loadSnip(
 	return snip
 }
 
+/**
+ * Loads all snips from a folder.
+ */
 export async function allSnips(libraryPath: string): Promise<z.infer<typeof snipsSchema>> {
 	const snipFiles = await walk({ ignoreFiles: ['.snipignore'], path: libraryPath })
 

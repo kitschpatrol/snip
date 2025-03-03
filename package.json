@@ -1,11 +1,20 @@
 {
 	"name": "@kitschpatrol/snip",
 	"version": "0.0.6",
-	"type": "module",
 	"description": "A CLI tool for snippet management.",
-	"repository": "github:kitschpatrol/snip",
+	"keywords": [
+		"cli",
+		"snippets",
+		"vscode",
+		"npm-package"
+	],
 	"homepage": "https://github.com/kitschpatrol/snip",
 	"bugs": "https://github.com/kitschpatrol/snip/issues",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/kitschpatrol/snip"
+	},
+	"license": "MIT",
 	"author": {
 		"name": "Eric Mika",
 		"email": "eric@ericmika.com",
@@ -17,29 +26,18 @@
 			"url": "https://github.com/jhanstra"
 		}
 	],
-	"license": "MIT",
-	"packageManager": "pnpm@9.10.0",
-	"engines": {
-		"node": ">=20.5.0",
-		"pnpm": ">=9.0.0"
-	},
+	"type": "module",
 	"bin": {
 		"snip": "./dist/cli.js"
 	},
 	"files": [
 		"dist/*"
 	],
-	"keywords": [
-		"cli",
-		"snippets",
-		"vscode",
-		"npm-package"
-	],
 	"scripts": {
-		"build": "pkgroll --clean-dist --minify",
+		"build": "pkgroll --clean-dist --minify --tsconfig tsconfig.build.json",
 		"clean": "git rm -f pnpm-lock.yaml ; git clean -fdX",
-		"fix": "shared-config --fix",
-		"lint": "shared-config --lint",
+		"fix": "kpi fix",
+		"lint": "kpi lint",
 		"release": "bumpp --commit 'Release: %s' && pnpm run build && pnpm publish --otp $(op read 'op://Personal/Npmjs/one-time password?attribute=otp')",
 		"start": "node ./dist/cli.js",
 		"test": "vitest",
@@ -57,21 +55,33 @@
 		"inquirer": "^10.2.2"
 	},
 	"devDependencies": {
-		"@kitschpatrol/shared-config": "^4.7.9",
+		"@kitschpatrol/shared-config": "^5.0.6",
 		"@types/node": "20.5.0",
 		"bumpp": "^9.5.2",
 		"chalk": "^5.3.0",
 		"date-fns": "^3.6.0",
-		"node-jq": "^6.0.1",
 		"pkgroll": "^2.5.0",
 		"tslog": "^4.9.3",
 		"tsx": "^4.19.1",
-		"typescript": "^5.6.2",
+		"typescript": "~5.7.3",
 		"untildify": "^5.0.0",
 		"vitest": "^2.1.1",
 		"zod": "^3.23.8"
 	},
+	"packageManager": "pnpm@10.5.2",
+	"engines": {
+		"node": ">=20.9.0"
+	},
 	"publishConfig": {
 		"access": "public"
+	},
+	"pnpm": {
+		"onlyBuiltDependencies": [
+			"esbuild",
+			"puppeteer"
+		],
+		"overrides": {
+			"eslint-plugin-markdown": "^5.1.0"
+		}
 	}
 }

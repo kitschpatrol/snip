@@ -6,6 +6,9 @@ import untildify from 'untildify'
 import { DESCRIPTION_DELIMITER, TEMP_DIRECTORY } from '../constants.js'
 import log from '../logger.js'
 
+/**
+ * Adds a new snippet to the specified snip library.
+ */
 export async function add(libraryPath: string, filename?: string) {
 	log.debug(`Adding to library ${libraryPath}`)
 	libraryPath = untildify(libraryPath)

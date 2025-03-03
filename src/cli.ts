@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable ts/no-unsafe-argument */
+/* eslint-disable ts/no-unsafe-assignment */
+/* eslint-disable ts/no-unsafe-return */
 
 import { createCommand, createOption } from '@commander-js/extra-typings'
 import fs from 'fs-extra'

@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 // See
-// Github.com/microsoft/vscode/blob/bbb3b1c06b47b6bcaedd631eaa7a057b87e86243/src/vs/base/common/jsonSchema.ts#L12
+// https://github.com/microsoft/vscode/blob/bbb3b1c06b47b6bcaedd631eaa7a057b87e86243/src/vs/base/common/jsonSchema.ts#L12
 
 // A simple regex to test for valid file paths (not perfect, but demonstrates the concept)
 
@@ -17,4 +17,4 @@ export const snipSchema = z.object({
 
 export const snipsSchema = z.array(snipSchema)
 
-export const editors = z.enum(['vscode', 'xcode', 'shell', 'sublime'])
+// export const editors = z.enum(['vscode', 'xcode', 'shell', 'sublime'])

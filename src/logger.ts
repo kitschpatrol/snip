@@ -1,14 +1,14 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/member-ordering */
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable ts/no-unsafe-assignment */
+/* eslint-disable ts/no-unsafe-member-access */
+/* eslint-disable ts/no-unsafe-argument */
+/* eslint-disable ts/member-ordering */
+/* eslint-disable ts/no-explicit-any */
 import chalk from 'chalk'
 import { formatWithOptions } from 'node:util'
 import { Logger as BaseLogger } from 'tslog'
 
 class Logger extends BaseLogger<unknown> {
-	private static instance: Logger
+	private static instance: Logger | undefined
 
 	private constructor() {
 		super({
