@@ -12,7 +12,7 @@
 	"bugs": "https://github.com/kitschpatrol/snip/issues",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/kitschpatrol/snip"
+		"url": "git+https://github.com/kitschpatrol/snip.git"
 	},
 	"license": "MIT",
 	"author": {
@@ -55,8 +55,8 @@
 		"inquirer": "^12.4.2"
 	},
 	"devDependencies": {
-		"@kitschpatrol/shared-config": "^5.0.8",
-		"@types/node": "20.5.0",
+		"@kitschpatrol/shared-config": "^5.2.0",
+		"@types/node": "^20.17.23",
 		"bumpp": "^10.0.3",
 		"chalk": "^5.4.1",
 		"date-fns": "^4.1.0",
