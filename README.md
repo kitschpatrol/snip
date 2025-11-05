@@ -19,7 +19,7 @@
 
 <!-- /short-description -->
 
-> \[!CAUTION]
+> [!CAUTION]
 > This tool is a work in progress, certain commands are not yet implemented and
 > others might behave unpredictably. I don't recommend using it until a 1.0.0
 > release.

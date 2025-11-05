@@ -1,5 +1,7 @@
+/* eslint-disable ts/no-unsafe-type-assertion */
+
 import { execa } from 'execa'
-import fs from 'fs-extra'
+import * as fs from 'fs-extra'
 import inquirer from 'inquirer'
 import { env } from 'node:process'
 import untildify from 'untildify'

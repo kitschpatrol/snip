@@ -1,3 +1,4 @@
+/* eslint-disable ts/no-unsafe-type-assertion */
 /* eslint-disable ts/naming-convention */
 
 // Builds a map associating file extensions with vscode language IDs
@@ -16,7 +17,8 @@
 // https://github.com/microsoft/vscode/blob/main/src/vs/platform/extensionManagement/common/extensionGalleryService.ts
 // Feasibility of marketplace API access encouraged by:
 // https://www.powershellgallery.com/packages/BcContainerHelper/1.0.18-preview300/Content/ContainerHandling%5CGet-LatestAlLanguageExtensionUrl.ps1
-import fs from 'node:fs/promises'
+
+import * as fs from 'node:fs/promises'
 
 type LanguageMap = Map<string, Set<string>>
 

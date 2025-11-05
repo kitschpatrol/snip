@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 
+/* eslint-disable ts/no-unsafe-type-assertion */
 /* eslint-disable ts/no-unsafe-argument */
 /* eslint-disable ts/no-unsafe-assignment */
 /* eslint-disable ts/no-unsafe-return */
 
+import type { z } from 'zod'
 import { createCommand, createOption } from '@commander-js/extra-typings'
 import fs from 'fs-extra'
 import untildify from 'untildify'
-import { type z } from 'zod'
 import { bin, description, version } from '../package.json'
 import { add, cd, list, setup, syncFromEditors, syncToEditors } from './commands/index.js' // The type from extra-typings isn't working...
 import { HOME_DIRECTORY } from './constants.js'

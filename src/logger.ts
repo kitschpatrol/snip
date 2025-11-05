@@ -3,9 +3,11 @@
 /* eslint-disable ts/no-unsafe-argument */
 /* eslint-disable ts/member-ordering */
 /* eslint-disable ts/no-explicit-any */
-import chalk from 'chalk'
 import { formatWithOptions } from 'node:util'
+import pc from 'picocolors'
 import { Logger as BaseLogger } from 'tslog'
+
+const identity = (text: string) => text
 
 class Logger extends BaseLogger<unknown> {
 	private static instance: Logger | undefined
@@ -50,13 +52,13 @@ class Logger extends BaseLogger<unknown> {
 					settings.prettyInspectOptions.colors = settings.stylePrettyLogs
 
 					// Ugly, but it's the only sane point of intervention...
-					let messageColor = chalk.reset
+					let messageColor = identity
 					if (logMetaMarkup.includes('DEBUG')) {
-						messageColor = chalk.green
+						messageColor = pc.green
 					} else if (logMetaMarkup.includes('WARN')) {
-						messageColor = chalk.yellow
+						messageColor = pc.yellow
 					} else if (logMetaMarkup.includes('ERROR')) {
-						messageColor = chalk.red
+						messageColor = pc.red
 					}
 
 					console.log(
@@ -83,17 +85,17 @@ class Logger extends BaseLogger<unknown> {
 
 					// Ugly, but it's the only sane point of intervention...
 					let modifiedMarkup = logMetaMarkup
-					let messageColor = chalk.reset
+					let messageColor = identity
 
 					if (modifiedMarkup.includes('DEBUG')) {
-						modifiedMarkup = chalk.blue.bold('Debug: ')
-						messageColor = chalk.blue
+						modifiedMarkup = pc.bold(pc.blue('Debug: '))
+						messageColor = pc.blue
 					} else if (modifiedMarkup.includes('WARN')) {
-						modifiedMarkup = chalk.yellow.bold('⚠️ ')
-						messageColor = chalk.yellow
+						modifiedMarkup = pc.bold(pc.yellow('⚠️ '))
+						messageColor = pc.yellow
 					} else if (modifiedMarkup.includes('ERROR')) {
-						modifiedMarkup = chalk.red.bold('🚨')
-						messageColor = chalk.red
+						modifiedMarkup = pc.bold(pc.red('🚨'))
+						messageColor = pc.red
 					} else {
 						modifiedMarkup = ''
 					}

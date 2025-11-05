@@ -1,10 +1,10 @@
+import type { z } from 'zod'
 import fs from 'fs-extra'
 import walk from 'ignore-walk'
 import path from 'node:path'
-import { type z } from 'zod'
+import type { snipSchema, snipsSchema } from './schemas.js'
 import { ALL_EXTENSION, DESCRIPTION_DELIMITER } from './constants.js'
 import log from './logger.js'
-import { type snipSchema, type snipsSchema } from './schemas.js'
 
 /**
  * Constructs a safe filename from a snip object.

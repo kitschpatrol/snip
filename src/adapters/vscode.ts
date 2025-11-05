@@ -1,3 +1,4 @@
+/* eslint-disable ts/no-unsafe-type-assertion */
 /* eslint-disable ts/member-ordering */
 /* eslint-disable ts/no-explicit-any */
 /* eslint-disable max-depth */
@@ -9,11 +10,11 @@ import { format } from 'date-fns'
 import fs from 'fs-extra'
 import path from 'node:path'
 import { z } from 'zod'
+import type { snipSchema, snipsSchema } from '../schemas.js'
 import { HOME_DIRECTORY } from '../constants.js'
 import packageInfo from '../generated/package-info.json' assert { type: 'json' }
 import vscodeLanguageMap from '../generated/vscode-language-map.json' assert { type: 'json' }
 import log from '../logger.js'
-import { type snipSchema, type snipsSchema } from '../schemas.js'
 
 // Type EditorAdapter<T extends z.ZodTypeAny, U extends z.ZodTypeAny> = {
 //   type: z.infer<typeof Editor>;
@@ -121,6 +122,7 @@ export class VscodeAdapter {
 		const key = snip.description ?? snip.prefix ?? `Key From Snip ${Date.now()}` // TODO hmm
 		const vscodeSnippet: z.infer<typeof this.editorSnipSchema> = {}
 
+		// eslint-disable-next-line unicorn/no-immediate-mutation
 		vscodeSnippet[key] = {
 			body: snip.body.split('\n'),
 			prefix: snip.prefix,
