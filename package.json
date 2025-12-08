@@ -49,27 +49,27 @@
 		"@types/ignore-walk": "^4.0.3",
 		"@types/inquirer": "^9.0.9",
 		"commander": "^14.0.2",
-		"execa": "^9.6.0",
+		"execa": "^9.6.1",
 		"fs-extra": "^11.3.2",
 		"ignore-walk": "^8.0.0",
-		"inquirer": "^12.10.0"
+		"inquirer": "^12.11.1"
 	},
 	"devDependencies": {
-		"@kitschpatrol/shared-config": "^5.8.2",
-		"@types/node": "^20.19.24",
-		"bumpp": "^10.3.1",
+		"@kitschpatrol/shared-config": "^5.10.0",
+		"@types/node": "^20.19.25",
+		"bumpp": "^10.3.2",
 		"date-fns": "^4.1.0",
-		"mdat-plugin-cli-help": "^1.0.2",
+		"mdat-plugin-cli-help": "^1.0.4",
 		"picocolors": "^1.1.1",
-		"pkgroll": "^2.20.1",
+		"pkgroll": "^2.21.4",
 		"tslog": "^4.10.2",
-		"tsx": "^4.20.6",
+		"tsx": "^4.21.0",
 		"typescript": "~5.9.3",
 		"untildify": "^6.0.0",
-		"vitest": "^4.0.7",
+		"vitest": "^4.0.15",
 		"zod": "^3.25.76"
 	},
-	"packageManager": "pnpm@10.20.0",
+	"packageManager": "pnpm@10.25.0",
 	"engines": {
 		"node": ">=20.9.0"
 	},
