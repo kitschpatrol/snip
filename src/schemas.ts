@@ -12,7 +12,7 @@ export const snipSchema = z.object({
 	body: z.string().min(1),
 	description: z.string().optional(),
 	extensions: z.array(z.string().min(1)).optional(),
-	prefix: z.optional(z.string().min(1)), // Note that this is optional! TODO is a filename just a description, or a prefix?
+	prefix: z.string().min(1).optional(), // Note that this is optional! TODO is a filename just a description, or a prefix?
 })
 
 export const snipsSchema = z.array(snipSchema)
