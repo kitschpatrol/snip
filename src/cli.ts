@@ -3,7 +3,6 @@
 /* eslint-disable ts/no-unsafe-type-assertion */
 /* eslint-disable ts/no-unsafe-argument */
 /* eslint-disable ts/no-unsafe-assignment */
-/* eslint-disable ts/no-unsafe-return */
 
 import type { z } from 'zod'
 import { createCommand, createOption } from '@commander-js/extra-typings'
@@ -16,7 +15,7 @@ import { SNIP_DEFAULT_CONFIG_FILE, SNIP_DEFAULT_LIBRARY_DIRECTORY } from './defa
 import log from './logger.js'
 import { filePath } from './schemas.js'
 
-function zodParser<T extends z.ZodTypeAny>(schema: T): (value: string) => z.infer<T> {
+function zodParser<T extends z.ZodType>(schema: T): (value: string) => z.infer<T> {
 	return (value) => schema.parse(value)
 }
 

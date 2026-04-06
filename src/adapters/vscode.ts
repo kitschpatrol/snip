@@ -39,9 +39,9 @@ export class VscodeAdapter {
 		z.string().max(1),
 		z.object({
 			body: z.array(z.string()),
-			description: z.optional(z.string().min(1)),
-			prefix: z.optional(z.string().min(1)),
-			scope: z.optional(z.string().min(1)),
+			description: z.string().min(1).optional(),
+			prefix: z.string().min(1).optional(),
+			scope: z.string().min(1).optional(),
 		}),
 	) // TODO Windows
 
@@ -50,9 +50,9 @@ export class VscodeAdapter {
 		z.string().min(1),
 		z.object({
 			body: z.array(z.string()),
-			description: z.optional(z.string().min(1)),
-			prefix: z.optional(z.string().min(1)),
-			scope: z.optional(z.string().min(1)),
+			description: z.string().min(1).optional(),
+			prefix: z.string().min(1).optional(),
+			scope: z.string().min(1).optional(),
 		}),
 	)
 
