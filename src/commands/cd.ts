@@ -1,7 +1,7 @@
 import { execa } from 'execa'
 import { env } from 'node:process'
 import untildify from 'untildify'
-import { log } from '../logger.js'
+import { log } from '../log.js'
 
 /**
  * Opens a shell in the specified snip library.

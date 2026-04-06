@@ -14,7 +14,7 @@ import type { snipSchema, snipsSchema } from '../schemas.js'
 import { HOME_DIRECTORY } from '../constants.js'
 import packageInfo from '../generated/package-info.json' assert { type: 'json' }
 import vscodeLanguageMap from '../generated/vscode-language-map.json' assert { type: 'json' }
-import { log } from '../logger.js'
+import { log } from '../log.js'
 
 // Type EditorAdapter<T extends z.ZodTypeAny, U extends z.ZodTypeAny> = {
 //   type: z.infer<typeof Editor>;
@@ -63,11 +63,11 @@ export class VscodeAdapter {
 	// Transformers
 	public static async getSnipsFromEditor(): Promise<z.infer<typeof snipsSchema>> {
 		const extensionSnips = this.getSnipsFromExtensions()
-		console.log(`extensionSnips: ${JSON.stringify(extensionSnips, undefined, 2)}`)
+		log.debug(`extensionSnips: ${JSON.stringify(extensionSnips, undefined, 2)}`)
 
 		// TODO
 		const userSnips = this.getSnipsFromUser()
-		console.log(`userSnips: ${JSON.stringify(userSnips, undefined, 2)}`)
+		log.debug(`userSnips: ${JSON.stringify(userSnips, undefined, 2)}`)
 
 		return extensionSnips
 	}
@@ -140,7 +140,7 @@ export class VscodeAdapter {
 	}
 
 	private static async getSnipsFromExtensions(): Promise<z.infer<typeof snipsSchema>> {
-		console.log(`vscodeUserExtensionsDir: ${VscodeAdapter.vscodeUserExtensionsDir}`)
+		log.debug(`vscodeUserExtensionsDir: ${VscodeAdapter.vscodeUserExtensionsDir}`)
 		// Scan extensions folder for snippets
 		// All snippet extensions I can find use .json snippet files instead of .code-snippets...
 		// TODO a GH search to see if that's really the case
@@ -160,7 +160,7 @@ export class VscodeAdapter {
 			if (await fs.exists(packagePath)) {
 				const manifest = (await fs.readJSON(packagePath)) as Record<string, any>
 				if (manifest.contributes?.snippets) {
-					console.log(`${manifest.name} contributes snippets...`)
+					log.debug(`${manifest.name} contributes snippets...`)
 
 					try {
 						const extensionSnippets = this.editorExtensionManifestSnipsSchema.parse(
@@ -173,7 +173,7 @@ export class VscodeAdapter {
 								extensionSnippet.path,
 							)
 
-							console.log(`Loading "${extensionSnippetPath}"`)
+							log.debug(`Loading "${extensionSnippetPath}"`)
 
 							const extensionSnips = this.editorSnipsSchema.parse(
 								await fs.readJSON(extensionSnippetPath),
@@ -188,7 +188,7 @@ export class VscodeAdapter {
 							// Console.log(`extensionSnips: ${extensionSnips}`);
 						}
 					} catch {
-						console.error(`Error parsing snippets from ${directory}`)
+						log.error(`Error parsing snippets from ${directory}`)
 						// Console.error(`error: ${JSON.stringify(error, undefined, 2)}`)
 					}
 				}
@@ -221,7 +221,7 @@ export class VscodeAdapter {
 		// 		return acc
 		// 	}, {})
 
-		console.warn('getSnipsFromUser not implemented')
+		log.warn('getSnipsFromUser not implemented')
 
 		return []
 	}

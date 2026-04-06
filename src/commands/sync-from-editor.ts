@@ -1,6 +1,6 @@
 import untildify from 'untildify'
 import { VscodeAdapter } from '../adapters/vscode.js'
-import { log } from '../logger.js'
+import { log } from '../log.js'
 
 /**
  * Syncs snippets from the specified editors to the specified snip library.
@@ -14,7 +14,7 @@ export async function syncFromEditors(sourceEditors: string[], libraryPath: stri
 			case 'vscode': {
 				try {
 					const snips = await VscodeAdapter.getSnipsFromEditor()
-					console.log(`snips: ${JSON.stringify(snips)}`)
+					log.debug(`snips: ${JSON.stringify(snips)}`)
 				} catch (error) {
 					log.error(`error: ${JSON.stringify(error, undefined, 2)}`)
 				}

@@ -12,7 +12,7 @@ import { bin, description, version } from '../package.json' with { type: 'json' 
 import { add, cd, list, setup, syncFromEditors, syncToEditors } from './commands/index.js' // The type from extra-typings isn't working...
 import { HOME_DIRECTORY } from './constants.js'
 import { SNIP_DEFAULT_CONFIG_FILE, SNIP_DEFAULT_LIBRARY_DIRECTORY } from './defaults.js'
-import { log, setVerbose } from './logger.js'
+import { log, setVerbose } from './log.js'
 import { filePath } from './schemas.js'
 
 function zodParser<T extends z.ZodType>(schema: T): (value: string) => z.infer<T> {

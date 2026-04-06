@@ -9,6 +9,6 @@ export async function list(libraryPath: string) {
 
 	const snips = await allSnips(libraryPath)
 	for (const snip of snips) {
-		console.log(filenameFromSnip(snip))
+		process.stdout.write(`${filenameFromSnip(snip)}\n`)
 	}
 }

@@ -1,6 +1,6 @@
 import untildify from 'untildify'
 import { VscodeAdapter } from '../adapters/vscode.js'
-import { log } from '../logger.js'
+import { log } from '../log.js'
 import { allSnips } from '../utilities.js'
 
 /**
