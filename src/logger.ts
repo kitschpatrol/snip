@@ -49,7 +49,9 @@ class Logger extends BaseLogger<unknown> {
 				): void {
 					const logErrorsString =
 						(logErrors.length > 0 && logArgs.length > 0 ? '\n' : '') + logErrors.join('\n')
-					settings.prettyInspectOptions.colors = settings.stylePrettyLogs
+					if (settings.prettyInspectOptions) {
+						settings.prettyInspectOptions.colors = settings.stylePrettyLogs
+					}
 
 					// Ugly, but it's the only sane point of intervention...
 					let messageColor = identity
@@ -63,7 +65,7 @@ class Logger extends BaseLogger<unknown> {
 
 					console.log(
 						logMetaMarkup +
-							messageColor(formatWithOptions(settings.prettyInspectOptions, ...logArgs)) +
+							messageColor(formatWithOptions(settings.prettyInspectOptions ?? {}, ...logArgs)) +
 							logErrorsString,
 					)
 				},
@@ -81,7 +83,9 @@ class Logger extends BaseLogger<unknown> {
 				): void {
 					const logErrorsString =
 						(logErrors.length > 0 && logArgs.length > 0 ? '\n' : '') + logErrors.join('\n')
-					settings.prettyInspectOptions.colors = settings.stylePrettyLogs
+					if (settings.prettyInspectOptions) {
+						settings.prettyInspectOptions.colors = settings.stylePrettyLogs
+					}
 
 					// Ugly, but it's the only sane point of intervention...
 					let modifiedMarkup = logMetaMarkup
@@ -102,7 +106,7 @@ class Logger extends BaseLogger<unknown> {
 
 					console.log(
 						modifiedMarkup +
-							messageColor(formatWithOptions(settings.prettyInspectOptions, ...logArgs)) +
+							messageColor(formatWithOptions(settings.prettyInspectOptions ?? {}, ...logArgs)) +
 							logErrorsString,
 					)
 				},

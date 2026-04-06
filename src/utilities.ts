@@ -31,7 +31,7 @@ export async function loadSnip(
 	const all = rawExtensions.includes(ALL_EXTENSION)
 	const extensions = rawExtensions.filter((value) => value !== ALL_EXTENSION)
 
-	const body = await fs.readFile(libraryPath + '/' + file, { encoding: 'utf8' })
+	const body = await fs.readFile(path.join(libraryPath, file), { encoding: 'utf8' })
 
 	const snip: z.infer<typeof snipSchema> = {
 		all,
