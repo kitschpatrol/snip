@@ -14,7 +14,7 @@ import type { snipSchema, snipsSchema } from '../schemas.js'
 import { HOME_DIRECTORY } from '../constants.js'
 import packageInfo from '../generated/package-info.json' assert { type: 'json' }
 import vscodeLanguageMap from '../generated/vscode-language-map.json' assert { type: 'json' }
-import log from '../logger.js'
+import { log } from '../logger.js'
 
 // Type EditorAdapter<T extends z.ZodTypeAny, U extends z.ZodTypeAny> = {
 //   type: z.infer<typeof Editor>;

@@ -1,5 +1,4 @@
 import untildify from 'untildify'
-import log from '../logger.js'
 import { allSnips, filenameFromSnip } from '../utilities.js'
 
 /**
@@ -10,6 +9,6 @@ export async function list(libraryPath: string) {
 
 	const snips = await allSnips(libraryPath)
 	for (const snip of snips) {
-		log.info(filenameFromSnip(snip))
+		console.log(filenameFromSnip(snip))
 	}
 }

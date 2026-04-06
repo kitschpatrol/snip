@@ -6,7 +6,7 @@ import inquirer from 'inquirer'
 import { env } from 'node:process'
 import untildify from 'untildify'
 import { DESCRIPTION_DELIMITER, TEMP_DIRECTORY } from '../constants.js'
-import log from '../logger.js'
+import { log } from '../logger.js'
 
 /**
  * Adds a new snippet to the specified snip library.
