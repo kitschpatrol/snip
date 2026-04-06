@@ -13,7 +13,7 @@ import { bin, description, version } from '../package.json' with { type: 'json' 
 import { add, cd, list, setup, syncFromEditors, syncToEditors } from './commands/index.js' // The type from extra-typings isn't working...
 import { HOME_DIRECTORY } from './constants.js'
 import { SNIP_DEFAULT_CONFIG_FILE, SNIP_DEFAULT_LIBRARY_DIRECTORY } from './defaults.js'
-import log from './logger.js'
+import { log, setVerbose } from './logger.js'
 import { filePath } from './schemas.js'
 
 function zodParser<T extends z.ZodTypeAny>(schema: T): (value: string) => z.infer<T> {
@@ -46,7 +46,7 @@ const program = createCommand()
 	.hook('preSubcommand', async (hookedCommand, subCommand) => {
 		// Set initial logging level
 		if (hookedCommand.opts().debug) {
-			log.setDebug(true)
+			setVerbose(true)
 			log.warn('debug mode enabled, expect extra logging')
 		}
 
@@ -69,8 +69,8 @@ const program = createCommand()
 		}
 
 		// Set logging level
-		if (!log.getDebug() && hookedCommand.opts().debug) {
-			log.setDebug(true)
+		if (hookedCommand.opts().debug) {
+			setVerbose(true)
 			log.warn('debug mode enabled, expect extra logging')
 		}
 	})

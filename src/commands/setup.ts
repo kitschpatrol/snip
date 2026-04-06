@@ -4,7 +4,7 @@ import * as fs from 'fs-extra'
 import inquirer from 'inquirer'
 import * as path from 'node:path'
 import untildify from 'untildify'
-import log from '../logger.js'
+import { log } from '../logger.js'
 
 const JSON_SUFFIX_REGEX = /\.json$/
 

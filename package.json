@@ -55,8 +55,7 @@
 		"fs-extra": "^11.3.4",
 		"ignore-walk": "^8.0.0",
 		"inquirer": "^12.11.1",
-		"picocolors": "^1.1.1",
-		"tslog": "^4.10.2",
+		"lognow": "^0.6.0",
 		"untildify": "^6.0.0",
 		"zod": "^3.25.76"
 	},
