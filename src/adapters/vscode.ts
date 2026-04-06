@@ -1,5 +1,5 @@
 /* eslint-disable ts/no-unsafe-type-assertion */
-/* eslint-disable ts/member-ordering */
+
 /* eslint-disable ts/no-explicit-any */
 /* eslint-disable max-depth */
 /* eslint-disable ts/no-unsafe-argument */

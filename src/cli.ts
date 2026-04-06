@@ -9,7 +9,7 @@ import type { z } from 'zod'
 import { createCommand, createOption } from '@commander-js/extra-typings'
 import fs from 'fs-extra'
 import untildify from 'untildify'
-import { bin, description, version } from '../package.json'
+import { bin, description, version } from '../package.json' with { type: 'json' }
 import { add, cd, list, setup, syncFromEditors, syncToEditors } from './commands/index.js' // The type from extra-typings isn't working...
 import { HOME_DIRECTORY } from './constants.js'
 import { SNIP_DEFAULT_CONFIG_FILE, SNIP_DEFAULT_LIBRARY_DIRECTORY } from './defaults.js'

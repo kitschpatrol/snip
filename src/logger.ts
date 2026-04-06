@@ -1,7 +1,7 @@
 /* eslint-disable ts/no-unsafe-assignment */
 /* eslint-disable ts/no-unsafe-member-access */
 /* eslint-disable ts/no-unsafe-argument */
-/* eslint-disable ts/member-ordering */
+
 /* eslint-disable ts/no-explicit-any */
 import { formatWithOptions } from 'node:util'
 import pc from 'picocolors'

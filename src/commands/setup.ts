@@ -1,10 +1,12 @@
 /* eslint-disable ts/no-unsafe-assignment */
 
-import fs from 'fs-extra'
+import * as fs from 'fs-extra'
 import inquirer from 'inquirer'
-import path from 'node:path'
+import * as path from 'node:path'
 import untildify from 'untildify'
 import log from '../logger.js'
+
+const JSON_SUFFIX_REGEX = /\.json$/
 
 /**
  * Interactively sets up a new snip library.
@@ -36,7 +38,7 @@ export async function setup(
 			return
 		}
 
-		const backupConfigPath = configPath.replace(/\.json$/, `-backup-${Date.now()}.json`)
+		const backupConfigPath = configPath.replace(JSON_SUFFIX_REGEX, `-backup-${Date.now()}.json`)
 		log.info(`Ok, backing up existing config to ${backupConfigPath}`)
 		await fs.rename(configPath, backupConfigPath)
 	}
