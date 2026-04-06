@@ -3,7 +3,6 @@
 /* eslint-disable ts/no-unsafe-type-assertion */
 /* eslint-disable ts/no-unsafe-argument */
 /* eslint-disable ts/no-unsafe-assignment */
-/* eslint-disable ts/no-unsafe-return */
 
 import type { z } from 'zod'
 import { createCommand, createOption } from '@commander-js/extra-typings'
