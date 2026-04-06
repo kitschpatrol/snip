@@ -5,7 +5,7 @@ import { z } from 'zod'
 
 // A simple regex to test for valid file paths (not perfect, but demonstrates the concept)
 
-export const filePath = z.string().min(1).url()
+export const filePath = z.string().min(1)
 
 export const snipSchema = z.object({
 	all: z.boolean(), // Flag special case for all extensions
