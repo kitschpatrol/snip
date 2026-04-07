@@ -51,39 +51,180 @@ TK
 
 <!-- cli-help -->
 
-```txt
-Usage: snip [options] [command]
+#### Command: `snip`
 
 A CLI tool for snippet management.
 
-Options:
-  -v, --version                   output the version number
-  -c, --config <path>             path to configuration file (default:
-                                  "~/.config/snip/config.json", env:
-                                  SNIP_CONFIG_FILE)
-  -l, --library <path>            path to library directory where snippets are
-                                  stored (default: "~/.snip", env:
-                                  SNIP_LIBRARY_DIR)
-  -d, --debug                     extra logging for troubleshooting (default:
-                                  false, env: SNIP_DEBUG)
-  -h, --help                      display help for command
+This section lists top-level commands for `snip`.
 
-Commands:
-  add [filename]                  add a snippet
-  cd                              launch a shell in the snippets directory
-  list                            list all snippets
-  setup                           set up snip
-  sync-to-editors [editors...]    sync snippets to editors
-  sync-from-editors [editors...]  sync snippets from editors (not yet
-                                  implemented)
-  help [command]                  display help for command
+Usage:
+
+```txt
+snip [options] [command]
 ```
+
+| Command             | Argument       | Description                                      |
+| ------------------- | -------------- | ------------------------------------------------ |
+| `add`               | `[filename]`   | add a snippet                                    |
+| `cd`                |                | launch a shell in the snippets directory         |
+| `list`              |                | list all snippets                                |
+| `setup`             |                | set up snip                                      |
+| `sync-to-editors`   | `[editors...]` | sync snippets to editors                         |
+| `sync-from-editors` | `[editors...]` | sync snippets from editors (not yet implemented) |
+
+| Option              | Argument | Description                                         | Default                      |
+| ------------------- | -------- | --------------------------------------------------- | ---------------------------- |
+| `--version`<br>`-v` |          | output the version number                           |                              |
+| `--config`<br>`-c`  | `<path>` | path to configuration file                          | `~/.config/snip/config.json` |
+| `--library`<br>`-l` | `<path>` | path to library directory where snippets are stored | `~/.snip`                    |
+| `--debug`<br>`-d`   |          | extra logging for troubleshooting                   | `false`                      |
+| `--help`<br>`-h`    |          | display help for command                            |                              |
+
+_See the sections below for more information on each subcommand._
+
+#### Subcommand: `snip add`
+
+add a snippet
+
+Usage:
+
+```txt
+snip add [options] [filename]
+```
+
+| Positional Argument | Description     |
+| ------------------- | --------------- |
+| `filename`          | name of snippet |
+
+| Option           | Description              |
+| ---------------- | ------------------------ |
+| `--help`<br>`-h` | display help for command |
+
+#### Subcommand: `snip cd`
+
+launch a shell in the snippets directory
+
+Usage:
+
+```txt
+snip cd [options]
+```
+
+| Option           | Description              |
+| ---------------- | ------------------------ |
+| `--help`<br>`-h` | display help for command |
+
+#### Subcommand: `snip list`
+
+list all snippets
+
+Usage:
+
+```txt
+snip list [options]
+```
+
+| Option           | Description              |
+| ---------------- | ------------------------ |
+| `--help`<br>`-h` | display help for command |
+
+#### Subcommand: `snip setup`
+
+set up snip
+
+Usage:
+
+```txt
+snip setup [options]
+```
+
+| Option           | Description              |
+| ---------------- | ------------------------ |
+| `--help`<br>`-h` | display help for command |
+
+#### Subcommand: `snip sync-to-editors`
+
+sync snippets to editors
+
+Usage:
+
+```txt
+snip sync-to-editors [options] [editors...]
+```
+
+| Positional Argument | Description        | Default      |
+| ------------------- | ------------------ | ------------ |
+| `editors`           | editors to sync to | `["vscode"]` |
+
+| Option           | Description              |
+| ---------------- | ------------------------ |
+| `--help`<br>`-h` | display help for command |
+
+#### Subcommand: `snip sync-from-editors`
+
+sync snippets from editors (not yet implemented)
+
+Usage:
+
+```txt
+snip sync-from-editors [options] [editors...]
+```
+
+| Positional Argument | Description        | Default      |
+| ------------------- | ------------------ | ------------ |
+| `editors`           | editors to sync to | `["vscode"]` |
+
+| Option           | Description              |
+| ---------------- | ------------------------ |
+| `--help`<br>`-h` | display help for command |
 
 <!-- /cli-help -->
 
-#### Examples
+### Examples
 
-TK
+Set up snip for the first time:
+
+```sh
+snip setup
+# Enter a pathname for your snippets library (~/.snip):
+```
+
+Add a new snippet interactively — snip prompts for a prefix, description, and language, then opens your `$EDITOR`:
+
+```sh
+snip add
+# Prefix (the trigger keyword for your snippet): cl
+# A quick description of your snippet (optional): Print value to console
+# Language (...): js+ts+jsx+tsx
+# Opens your editor to write the snippet body...
+```
+
+Or pass a filename directly:
+
+```sh
+snip add "cl--Print value to console.js+ts+jsx+tsx"
+```
+
+List all snippets in your library:
+
+```sh
+snip list
+# cl--Print value to console.js+ts+jsx+tsx
+# html--HTML 5 boilerplate.html
+# li--Lorem Ipsum.all
+```
+
+Sync your snippet library to VS Code:
+
+```sh
+snip sync-to-editors vscode
+```
+
+Jump into your snippets directory to edit files directly:
+
+```sh
+snip cd
+```
 
 ## Background
 
