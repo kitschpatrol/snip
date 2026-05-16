@@ -7,7 +7,7 @@
 <!-- badges -->
 
 [![NPM Package @kitschpatrol/snip](https://img.shields.io/npm/v/@kitschpatrol/snip.svg)](https://npmjs.com/package/@kitschpatrol/snip)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/license/mit/)
 [![CI](https://github.com/kitschpatrol/snip/actions/workflows/ci.yml/badge.svg)](https://github.com/kitschpatrol/snip/actions/workflows/ci.yml)
 
 <!-- /badges -->
@@ -251,7 +251,7 @@ Modifications include:
 
 ## Maintainers
 
-[@kitschpatrol](https://github.com/kitschpatrol)
+[kitschpatrol](https://github.com/kitschpatrol)
 
 ## Acknowledgments
 
@@ -261,7 +261,11 @@ Modifications include:
 
 ## Contributing
 
-[Issues](https://github.com/kitschpatrol/snip/issues) and pull requests are welcome.
+[Issues](https://github.com/kitschpatrol/snip/issues) are welcome and appreciated.
+
+Please open an issue to discuss changes before submitting a pull request. Unsolicited PRs (especially AI-generated ones) are unlikely to be merged.
+
+This repository uses [@kitschpatrol/shared-config](https://github.com/kitschpatrol/shared-config) (via its `ksc` CLI) for linting and formatting, plus [MDAT](https://github.com/kitschpatrol/mdat) for readme placeholder expansion.
 
 <!-- /contributing -->
 
@@ -269,6 +273,6 @@ Modifications include:
 
 ## License
 
-[MIT](license.txt) © Eric Mika
+[MIT](license.txt) © [Eric Mika](https://ericmika.com)
 
 <!-- /license -->

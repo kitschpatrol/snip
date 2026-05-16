@@ -26,8 +26,14 @@ async function getResolvedPromises<T>(promises: Array<Promise<T>>, logErrors = f
 	const results = await Promise.allSettled(promises)
 	return results
 		.filter((result) => {
-			if (result.status === 'fulfilled') return true
-			if (logErrors) console.error('Error from getResolvedPromises:\n', result.reason)
+			if (result.status === 'fulfilled') {
+				return true
+			}
+
+			if (logErrors) {
+				console.error('Error from getResolvedPromises:\n', result.reason)
+			}
+
 			return false
 		})
 		.map((result) => (result as PromiseFulfilledResult<T>).value)

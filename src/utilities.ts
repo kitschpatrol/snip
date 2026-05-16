@@ -17,6 +17,7 @@ export function filenameFromSnip(snip: z.infer<typeof snipSchema>): string {
 
 /**
  * Loads a snip from a file.
+ *
  * @public
  */
 export async function loadSnip(
