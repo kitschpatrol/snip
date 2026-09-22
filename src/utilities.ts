@@ -11,7 +11,10 @@ import { log } from './log.js'
  */
 export function filenameFromSnip(snip: z.infer<typeof snipSchema>): string {
 	const extension = snip.all ? ALL_EXTENSION : snip.extensions?.join('+')
-	const description = snip.description ? DESCRIPTION_DELIMITER + snip.description : ''
+	const description =
+		snip.description === undefined || snip.description === ''
+			? ''
+			: DESCRIPTION_DELIMITER + snip.description
 	return `${snip.prefix}${description}.${extension}`
 }
 

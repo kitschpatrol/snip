@@ -1,5 +1,3 @@
-/* eslint-disable ts/no-unsafe-type-assertion */
-
 import { execa } from 'execa'
 import * as fs from 'fs-extra'
 import inquirer from 'inquirer'
@@ -17,8 +15,12 @@ export async function add(libraryPath: string, filename?: string) {
 
 	// TODO validate filename with zod...
 
-	if (!filename) {
-		const answers = await inquirer.prompt([
+	if (filename === undefined || filename === '') {
+		const answers = await inquirer.prompt<{
+			description: string
+			langs: string
+			prefix: string
+		}>([
 			{
 				message: 'Prefix (the trigger keyword for your snippet):',
 				name: 'prefix',
@@ -38,14 +40,16 @@ export async function add(libraryPath: string, filename?: string) {
 
 		// TODO intermediate step as Snip object
 		filename = `${answers.prefix}${
-			answers.description ? DESCRIPTION_DELIMITER + (answers.description as string).trim() : ''
-		}.${(answers.langs as string).trim().toLowerCase()}`
+			answers.description === '' ? '' : DESCRIPTION_DELIMITER + answers.description.trim()
+		}.${answers.langs.trim().toLowerCase()}`
 	}
 
 	// Check for a user's preferred editor, otherwise default to vim
 	// also extract any args if needed (e.g. if your EDITOR='code -w -n')
-	const userEditor = (env.EDITOR ?? 'vim').split(' ')[0]
-	const userEditorArgs = (env.EDITOR ?? '').split(' ').slice(1)
+	const [userEditor, ...userEditorArgs] = (env.EDITOR ?? 'vim').split(' ')
+	if (userEditor === undefined || userEditor === '') {
+		throw new Error('EDITOR must specify an executable')
+	}
 
 	await execa(userEditor, [...userEditorArgs, `${TEMP_DIRECTORY}/${filename}`], {
 		stdio: 'inherit',
@@ -58,7 +62,7 @@ export async function add(libraryPath: string, filename?: string) {
 		overwrite: true,
 	})
 
-	const answer = await inquirer.prompt([
+	const answer = await inquirer.prompt<{ more: boolean }>([
 		{
 			message: 'Add more?',
 			name: 'more',

@@ -9,7 +9,7 @@ import { log } from '../log.js'
 export async function cd(libraryPath: string) {
 	libraryPath = untildify(libraryPath)
 
-	if (env.SHELL) {
+	if (env.SHELL !== undefined && env.SHELL !== '') {
 		await execa(env.SHELL, ['-i'], {
 			cwd: libraryPath,
 			env,

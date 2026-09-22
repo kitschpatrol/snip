@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-/* eslint-disable ts/no-unsafe-type-assertion */
 /* eslint-disable ts/no-unsafe-argument */
 /* eslint-disable ts/no-unsafe-assignment */
 
@@ -9,7 +8,7 @@ import { createCommand, createOption } from '@commander-js/extra-typings'
 import fs from 'fs-extra'
 import untildify from 'untildify'
 import { bin, description, version } from '../package.json' with { type: 'json' }
-import { add, cd, list, setup, syncFromEditors, syncToEditors } from './commands/index.js' // The type from extra-typings isn't working...
+import { add, cd, list, setup, syncFromEditors, syncToEditors } from './commands/index.js'
 import { HOME_DIRECTORY } from './constants.js'
 import { SNIP_DEFAULT_CONFIG_FILE, SNIP_DEFAULT_LIBRARY_DIRECTORY } from './defaults.js'
 import { log, setVerbose } from './log.js'
@@ -19,8 +18,13 @@ function zodParser<T extends z.ZodType>(schema: T): (value: string) => z.infer<T
 	return (value) => schema.parse(value)
 }
 
+const [commandName] = Object.keys(bin)
+if (commandName === undefined || commandName === '') {
+	throw new Error('No CLI command defined in package.json')
+}
+
 const program = createCommand()
-	.name(Object.keys(bin)[0])
+	.name(commandName)
 	.description(description)
 	.version(version, '-v, --version')
 	.addOption(
@@ -66,75 +70,56 @@ const program = createCommand()
 		} else {
 			log.warn('No config file found, using defaults')
 		}
-
-		// Set logging level
-		if (hookedCommand.opts().debug) {
-			setVerbose(true)
-			log.warn('debug mode enabled, expect extra logging')
-		}
 	})
-	.addCommand(
-		createCommand('add')
-			.description('add a snippet')
-			.argument('[filename]', 'name of snippet')
-			// TODO break down args, and allow body to be passed in
-			.action(async (filename, _, options) => {
-				await add(
-					(options.optsWithGlobals() as Record<string, unknown>).library as string,
-					filename,
-				)
-			}),
-	)
-	.addCommand(
-		createCommand('cd')
-			.description('launch a shell in the snippets directory')
-			.action(async (_, options) => {
-				await cd((options.optsWithGlobals() as Record<string, unknown>).library as string)
-			}),
-	)
-	.addCommand(
-		createCommand('list')
-			.description('list all snippets')
-			.action(async (_, options) => {
-				await list((options.optsWithGlobals() as Record<string, unknown>).library as string)
-			}),
-	)
-	.addCommand(
-		createCommand('setup')
-			.description('set up snip')
-			.action(async (_, options) => {
-				// TODO can you fish defaults out of commander's options?
-				await setup(
-					(options.optsWithGlobals() as Record<string, unknown>).config as string,
-					SNIP_DEFAULT_CONFIG_FILE,
-					SNIP_DEFAULT_LIBRARY_DIRECTORY,
-				)
-			}),
-	)
-	.addCommand(
-		createCommand('sync-to-editors')
-			.description('sync snippets to editors')
-			.argument('[editors...]', 'editors to sync to', ['vscode'])
-			.action(async (editors, _, options) => {
-				// TODO can you fish defaults out of commander's options?
-				await syncToEditors(
-					(options.optsWithGlobals() as Record<string, unknown>).library as string,
-					editors,
-				)
-			}),
-	)
-	.addCommand(
-		createCommand('sync-from-editors')
-			.description('sync snippets from editors (not yet implemented)')
-			.argument('[editors...]', 'editors to sync to', ['vscode'])
-			.action(async (editors, _, options) => {
-				// TODO can you fish defaults out of commander's options?
-				await syncFromEditors(
-					editors,
-					(options.optsWithGlobals() as Record<string, unknown>).library as string,
-				)
-			}),
-	)
-	.showHelpAfterError()
 
-await program.parseAsync()
+program
+	.command('add')
+	.description('add a snippet')
+	.argument('[filename]', 'name of snippet')
+	// TODO break down args, and allow body to be passed in
+	.action(async (filename, _, command) => {
+		await add(command.optsWithGlobals().library, filename)
+	})
+
+program
+	.command('cd')
+	.description('launch a shell in the snippets directory')
+	.action(async (_, command) => {
+		await cd(command.optsWithGlobals().library)
+	})
+
+program
+	.command('list')
+	.description('list all snippets')
+	.action(async (_, command) => {
+		await list(command.optsWithGlobals().library)
+	})
+
+program
+	.command('setup')
+	.description('set up snip')
+	.action(async (_, command) => {
+		await setup(
+			command.optsWithGlobals().config,
+			SNIP_DEFAULT_CONFIG_FILE,
+			SNIP_DEFAULT_LIBRARY_DIRECTORY,
+		)
+	})
+
+program
+	.command('sync-to-editors')
+	.description('sync snippets to editors')
+	.argument('[editors...]', 'editors to sync to', ['vscode'])
+	.action(async (editors, _, command) => {
+		await syncToEditors(command.optsWithGlobals().library, editors)
+	})
+
+program
+	.command('sync-from-editors')
+	.description('sync snippets from editors (not yet implemented)')
+	.argument('[editors...]', 'editors to sync to', ['vscode'])
+	.action(async (editors, _, command) => {
+		await syncFromEditors(editors, command.optsWithGlobals().library)
+	})
+
+await program.showHelpAfterError().parseAsync()

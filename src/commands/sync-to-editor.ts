@@ -14,20 +14,15 @@ export async function syncToEditors(libraryPath: string, destinationEditors: str
 	const snips = await allSnips(libraryPath)
 
 	for (const editor of destinationEditors) {
-		switch (editor) {
-			case 'vscode': {
-				try {
-					await VscodeAdapter.writeSnipsToEditor(snips)
-				} catch (error) {
-					log.error(`error: ${String(error)}`)
-				}
+		if (editor !== 'vscode') {
+			log.error(`Unknown editor ${editor}`)
+			continue
+		}
 
-				break
-			}
-
-			default: {
-				log.error(`Unknown editor ${editor}`)
-			}
+		try {
+			await VscodeAdapter.writeSnipsToEditor(snips)
+		} catch (error) {
+			log.error(`error: ${String(error)}`)
 		}
 	}
 }

@@ -1,12 +1,10 @@
-/* eslint-disable ts/no-unsafe-assignment */
-
 import * as fs from 'fs-extra'
 import inquirer from 'inquirer'
 import * as path from 'node:path'
 import untildify from 'untildify'
 import { log } from '../log.js'
 
-const JSON_SUFFIX_REGEX = /\.json$/
+const JSON_SUFFIX_REGEX = /\.json$/v
 
 /**
  * Interactively sets up a new snip library.
@@ -20,11 +18,9 @@ export async function setup(
 	defaultConfigPath = untildify(defaultConfigPath)
 	defaultLibraryPath = untildify(defaultLibraryPath)
 
-	let answers
-
 	// Ask before overwriting existing
 	if (await fs.exists(configPath)) {
-		answers = await inquirer.prompt([
+		const answers = await inquirer.prompt<{ overwrite: boolean }>([
 			{
 				message:
 					'You already have a config file set up in this location. It will be backed up and your snippets will remain safe. Do you want to continue and create a new config?',
@@ -38,14 +34,17 @@ export async function setup(
 			return
 		}
 
-		const backupConfigPath = configPath.replace(JSON_SUFFIX_REGEX, `-backup-${Date.now()}.json`)
+		const backupConfigPath = configPath.replace(
+			JSON_SUFFIX_REGEX,
+			() => `-backup-${Date.now()}.json`,
+		)
 		log.info(`Ok, backing up existing config to ${backupConfigPath}`)
 		await fs.rename(configPath, backupConfigPath)
 	}
 
 	// Creating in a weird location
-	if ((await fs.exists(defaultConfigPath)) && configPath !== defaultConfigPath) {
-		answers = await inquirer.prompt([
+	if (configPath !== defaultConfigPath && (await fs.exists(defaultConfigPath))) {
+		const answers = await inquirer.prompt<{ cleanup: boolean }>([
 			{
 				message: `You already have a config file set up in the default location (${defaultConfigPath}). Do you want to delete this config before creating a new one in a different location?`,
 				name: 'cleanup',
@@ -73,7 +72,7 @@ export async function setup(
 		)
 	}
 
-	answers = await inquirer.prompt([
+	const answers = await inquirer.prompt<{ libraryPath: string }>([
 		{
 			default: defaultLibraryPath,
 			message: `Enter a pathname for your snippets library`,
@@ -82,7 +81,7 @@ export async function setup(
 		},
 	])
 
-	if (answers.libraryPath) {
+	if (answers.libraryPath !== '') {
 		// TODO targets?
 		// TODO validation
 		// TODO overwrite warning

@@ -1,4 +1,3 @@
-/* eslint-disable ts/no-unsafe-type-assertion */
 /* eslint-disable ts/naming-convention */
 
 // Builds a map associating file extensions with vscode language IDs
@@ -24,19 +23,16 @@ type LanguageMap = Map<string, Set<string>>
 
 async function getResolvedPromises<T>(promises: Array<Promise<T>>, logErrors = false) {
 	const results = await Promise.allSettled(promises)
-	return results
-		.filter((result) => {
-			if (result.status === 'fulfilled') {
-				return true
-			}
+	const values: T[] = []
+	for (const result of results) {
+		if (result.status === 'fulfilled') {
+			values.push(result.value)
+		} else if (logErrors) {
+			console.error('Error from getResolvedPromises:\n', result.reason)
+		}
+	}
 
-			if (logErrors) {
-				console.error('Error from getResolvedPromises:\n', result.reason)
-			}
-
-			return false
-		})
-		.map((result) => (result as PromiseFulfilledResult<T>).value)
+	return values
 }
 
 // Extension manifest type specification:
@@ -127,7 +123,8 @@ function addLanguagesToMapFromManifest(
 
 	for (const language of manifest.contributes.languages) {
 		// eslint-disable-next-line ts/no-unnecessary-condition
-		for (const extension of cleanExtensions(language.extensions ?? [])) {
+		const extensions = cleanExtensions(language.extensions ?? [])
+		for (const extension of extensions) {
 			if (!languageMap.has(extension)) {
 				languageMap.set(extension, new Set())
 			}
@@ -142,21 +139,27 @@ function addLanguagesToMapFromManifest(
 /**
  * Gets extensions from the marketplace
  */
-export async function getExtensions(
+async function getExtensions(
 	pageNumber = 1,
 	pageSize = 100,
 	programmingLanguagesCategoryOnly = true,
 ): Promise<MarketplaceExtensionsResponse> {
+	const criteria = [
+		// https://github.com/microsoft/vscode/blob/3e47253e4694be3f42c9e173855654a6624409ce/src/vs/platform/extensionManagement/common/extensionGalleryService.ts#L185-L194
+		{ filterType: 8, value: 'Microsoft.VisualStudio.Code' }, // Target
+		{ filterType: 10, value: 'target:"Microsoft.VisualStudio.Code" ' }, // SearchText
+		{ filterType: 12, value: '37888' }, // ExcludeWithFlags not clear...
+	]
+
+	if (programmingLanguagesCategoryOnly) {
+		criteria.push({ filterType: 5, value: 'Programming Languages' }) // Category
+	}
+
 	const requestBody = {
 		assetTypes: ['Microsoft.VisualStudio.Code.Manifest'],
 		filters: [
 			{
-				criteria: [
-					// https://github.com/microsoft/vscode/blob/3e47253e4694be3f42c9e173855654a6624409ce/src/vs/platform/extensionManagement/common/extensionGalleryService.ts#L185-L194
-					{ filterType: 8, value: 'Microsoft.VisualStudio.Code' }, // Target
-					{ filterType: 10, value: 'target:"Microsoft.VisualStudio.Code" ' }, // SearchText
-					{ filterType: 12, value: '37888' }, // ExcludeWithFlags not clear...
-				],
+				criteria,
 				direction: 2, // Probably descending
 				pageNumber,
 				pageSize,
@@ -172,11 +175,6 @@ export async function getExtensions(
 		flags: 0x2 | 0x2_00, // Files + latest version only
 	}
 
-	if (programmingLanguagesCategoryOnly) {
-		requestBody.filters[0].criteria.push({ filterType: 5, value: 'Programming Languages' }) // Category
-	}
-
-	// eslint-disable-next-line node/no-unsupported-features/node-builtins
 	const response = await fetch(
 		'https://marketplace.visualstudio.com/_apis/public/gallery/extensionquery',
 		{
@@ -193,14 +191,19 @@ export async function getExtensions(
 
 	const data = (await response.json()) as RawMarketplaceExtensionsResponse
 
+	const [result] = data.results
+	const totalCount = result?.resultMetadata[0]?.metadataItems[0]?.count
+	if (!result || totalCount === undefined) {
+		throw new Error('Marketplace response is missing extension results or total count')
+	}
+
 	return {
-		extensions: data.results[0].extensions,
-		totalCount: data.results[0].resultMetadata[0].metadataItems[0].count,
+		extensions: result.extensions,
+		totalCount,
 	}
 }
 
 async function getManifestFromUrl(manifestUrl: string): Promise<VSCodeExtensionManifest> {
-	// eslint-disable-next-line node/no-unsupported-features/node-builtins
 	const manifestResponse = await fetch(manifestUrl)
 
 	if (manifestResponse.status !== 200) {
@@ -217,7 +220,7 @@ async function getProgrammingLanguageIdsFromBundledExtensions(
 	extensionLanguageIds: LanguageMap = new Map(),
 ): Promise<LanguageMap> {
 	// Get list of bundled extensions from extensions folder
-	// eslint-disable-next-line node/no-unsupported-features/node-builtins
+
 	const response = await fetch('https://api.github.com/repos/microsoft/vscode/contents/extensions')
 	const directoryList = (await response.json()) as VSCodeExtensionInfo[]
 
@@ -300,7 +303,7 @@ async function updateVsCodeLanguageData() {
 	const fileExtensionCount = extensionLanguageIds.size
 	let languageIdCount = 0
 	const extensionLanguageIdsObject: Record<string, string[]> = {}
-	for (const [extensionKey, languageIdSet] of extensionLanguageIds.entries()) {
+	for (const [extensionKey, languageIdSet] of extensionLanguageIds) {
 		languageIdCount += languageIdSet.size
 		extensionLanguageIdsObject[extensionKey] = [...languageIdSet]
 	}

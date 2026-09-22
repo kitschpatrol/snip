@@ -7,7 +7,7 @@ import path from 'node:path'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
 const CLI_PATH = path.resolve('dist/cli.js')
-const VERSION_REGEX = /^\d+\.\d+\.\d+$/
+const VERSION_REGEX = /^\d+\.\d+\.\d+$/v
 
 async function createTempDirectory(prefix: string): Promise<string> {
 	return fs.mkdtemp(path.join(os.tmpdir(), `snip-test-${prefix}-`))
