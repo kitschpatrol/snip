@@ -39,7 +39,7 @@
 		"clean-deep": "shx rm -f pnpm-lock.yaml && git clean -fdX -e !.claude/",
 		"fix": "ksc fix",
 		"lint": "ksc lint",
-		"release": "bumpp --commit 'Release: %s' && pnpm build && pnpm publish --otp $(op item get npm --otp)",
+		"release": "bumpp --commit 'Release: %s' && pnpm build && pnpm publish --otp $(op item get npm --otp) && brewpub --tap kitschpatrol/tap",
 		"start": "node ./dist/cli.js",
 		"test": "vitest run",
 		"update-language-data": "tsx ./scripts/update-vscode-language-data.ts"
@@ -61,6 +61,7 @@
 	"devDependencies": {
 		"@kitschpatrol/shared-config": "^8.10.0",
 		"@types/node": "~24.13.4",
+		"brewpub": "^0.3.0",
 		"bumpp": "^12.3.0",
 		"mdat-plugin-cli-help": "^3.2.0",
 		"publint": "^0.3.24",

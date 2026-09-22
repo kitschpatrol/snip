@@ -37,7 +37,13 @@ The `snip` CLI tool requires Node 18+.
 
 ### Installation
 
-Install globally for access across your system:
+Install globally with Homebrew for access across your system:
+
+```sh
+brew install kitschpatrol/tap/snip
+```
+
+The package is also available on npm:
 
 ```sh
 npm install --global @kitschpatrol/snip
