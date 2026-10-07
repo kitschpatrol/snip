@@ -1,8 +1,6 @@
 {
 	"extends": "@kitschpatrol/typescript-config",
 	"compilerOptions": {
-		"types": ["node", "fs-extra", "ignore-walk"]
-	},
-	"include": ["**/**.*"],
-	"exclude": ["dist/"]
+		"types": ["node"]
+	}
 }

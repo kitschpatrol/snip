@@ -21,13 +21,13 @@ import * as fs from 'node:fs/promises'
 
 type LanguageMap = Map<string, Set<string>>
 
-async function getResolvedPromises<T>(promises: Array<Promise<T>>, logErrors = false) {
+async function getResolvedPromises<T>(promises: Array<Promise<T>>) {
 	const results = await Promise.allSettled(promises)
 	const values: T[] = []
 	for (const result of results) {
 		if (result.status === 'fulfilled') {
 			values.push(result.value)
-		} else if (logErrors) {
+		} else {
 			console.error('Error from getResolvedPromises:\n', result.reason)
 		}
 	}
@@ -224,19 +224,14 @@ async function getProgrammingLanguageIdsFromBundledExtensions(
 	const response = await fetch('https://api.github.com/repos/microsoft/vscode/contents/extensions')
 	const directoryList = (await response.json()) as VSCodeExtensionInfo[]
 
-	const manifestUrls = directoryList.flatMap((value) => {
-		if (value.type === 'dir') {
-			return [
-				`https://raw.githubusercontent.com/microsoft/vscode/main/extensions/${value.name}/package.json`,
-			]
-		}
-
-		return []
-	})
+	const manifestUrls = directoryList.flatMap((value) =>
+		value.type === 'dir'
+			? `https://raw.githubusercontent.com/microsoft/vscode/main/extensions/${value.name}/package.json`
+			: [],
+	)
 
 	const manifests = await getResolvedPromises(
 		manifestUrls.map(async (manifestUrl) => getManifestFromUrl(manifestUrl)),
-		true,
 	)
 
 	for (const manifest of manifests) {
@@ -278,7 +273,6 @@ async function getLanguageIDsFromExtensionsMarketplace(
 
 		const manifests = await getResolvedPromises(
 			manifestUrls.map(async (manifestUrl) => getManifestFromUrl(manifestUrl)),
-			true,
 		)
 
 		for (const manifest of manifests) {

@@ -264,9 +264,7 @@ describe('VscodeAdapter', () => {
 			const snips = await VscodeAdapter.getSnipsFromEditor()
 			expect(snips).toHaveLength(2)
 
-			const prefixes = snips
-				.map((s) => s.prefix)
-				.toSorted((a, b) => (a ?? '').localeCompare(b ?? ''))
+			const prefixes = snips.map((s) => s.prefix).toSorted((a = '', b = '') => a.localeCompare(b))
 			expect(prefixes).toEqual(['af', 'html5'])
 		})
 

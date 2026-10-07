@@ -10,7 +10,6 @@ export default eslintConfig({
 					allowed: ['execa', 'fs-extra'],
 				},
 			],
-			'import/no-named-as-default-member': 'off',
 		},
 	},
 })

@@ -9,12 +9,13 @@
 [![NPM Package @kitschpatrol/snip](https://img.shields.io/npm/v/@kitschpatrol/snip.svg)](https://www.npmjs.com/package/@kitschpatrol/snip)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/license/mit)
 [![CI](https://github.com/kitschpatrol/snip/actions/workflows/ci.yml/badge.svg)](https://github.com/kitschpatrol/snip/actions/workflows/ci.yml)
+[![Homebrew](https://img.shields.io/badge/Homebrew-kitschpatrol%2Ftap%2Fsnip-FBB040?logo=homebrew&logoColor=white)](https://github.com/kitschpatrol/homebrew-tap/blob/HEAD/Formula/snip.rb)
 
 <!-- /badges -->
 
 <!-- short-description -->
 
-**A CLI tool for snippet management.**
+**CLI tool for snippet management.**
 
 <!-- /short-description -->
 
@@ -31,23 +32,37 @@ Snip is a fork of [Jared Hanstra](https://github.com/jhanstra)'s [snipster](http
 
 ## Getting started
 
+<!-- dependencies -->
+
 ### Dependencies
 
-The `snip` CLI tool requires Node 18+.
+- [Node.js](https://nodejs.org/) 24.16.0 or newer (specifically `^24.16.0 || >=26.0.0`)
+
+<!-- /dependencies -->
+
+<!-- install -->
 
 ### Installation
 
-Install globally with Homebrew for access across your system:
+Run it once without installing:
+
+```sh
+npx @kitschpatrol/snip
+```
+
+Or install it globally with Homebrew:
 
 ```sh
 brew install kitschpatrol/tap/snip
 ```
 
-The package is also available on npm:
+Or install it globally with npm:
 
 ```sh
 npm install --global @kitschpatrol/snip
 ```
+
+<!-- /install -->
 
 ## Usage
 
@@ -55,11 +70,11 @@ TK
 
 ### CLI
 
-<!-- cli-help -->
+<!-- cli-help({ heading: false, headingLevel: 3 }) -->
 
 #### Command: `snip`
 
-A CLI tool for snippet management.
+CLI tool for snippet management.
 
 This section lists top-level commands for `snip`.
 

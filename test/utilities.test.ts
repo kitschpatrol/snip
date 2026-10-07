@@ -163,7 +163,7 @@ describe('allSnips', () => {
 		const snips = await allSnips(tempDirectory)
 		expect(snips).toHaveLength(3)
 
-		const prefixes = snips.map((s) => s.prefix).toSorted((a, b) => (a ?? '').localeCompare(b ?? ''))
+		const prefixes = snips.map((s) => s.prefix).toSorted((a = '', b = '') => a.localeCompare(b))
 		expect(prefixes).toEqual(['cl', 'html', 'li'])
 	})
 
@@ -213,7 +213,7 @@ describe('allSnips', () => {
 
 		const snips = await allSnips(tempDirectory)
 		expect(snips).toHaveLength(3)
-		const prefixes = snips.map((s) => s.prefix).toSorted((a, b) => (a ?? '').localeCompare(b ?? ''))
+		const prefixes = snips.map((s) => s.prefix).toSorted((a = '', b = '') => a.localeCompare(b))
 		expect(prefixes).toEqual(['ac', 'alert', 'aw'])
 	})
 
