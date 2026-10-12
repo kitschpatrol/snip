@@ -6,7 +6,8 @@
 		"cli",
 		"snippets",
 		"vscode",
-		"npm-package"
+		"npm-package",
+		"homebrew-formula"
 	],
 	"homepage": "https://github.com/kitschpatrol/snip",
 	"bugs": "https://github.com/kitschpatrol/snip/issues",
@@ -51,29 +52,29 @@
 		"@types/ignore-walk": "^4.0.3",
 		"commander": "^15.0.0",
 		"date-fns": "^4.4.0",
-		"execa": "^10.0.1",
+		"execa": "^10.1.0",
 		"fs-extra": "^11.4.1",
 		"ignore-walk": "^9.0.0",
 		"inquirer": "^14.2.3",
-		"lognow": "^0.8.4",
+		"lognow": "^0.8.5",
 		"untildify": "^6.0.0",
 		"zod": "^4.6.5"
 	},
 	"devDependencies": {
 		"@kitschpatrol/shared-config": "^8.13.1",
-		"@types/node": "~24.13.4",
+		"@types/node": "~24.13.6",
 		"brewpub": "^0.5.0",
 		"bumpp": "^12.3.0",
-		"mdat-plugin-cli-help": "^3.4.0",
+		"mdat-plugin-cli-help": "^3.4.1",
 		"publint": "^0.3.25",
 		"shx": "^0.4.0",
-		"skills": "^1.7.0",
-		"tsdown": "^0.23.0",
+		"skills": "^1.7.2",
+		"tsdown": "^0.23.1",
 		"tsx": "^4.23.15",
 		"typescript": "~6.0.3",
 		"vitest": "^5.0.3"
 	},
-	"packageManager": "pnpm@12.9.1",
+	"packageManager": "pnpm@12.11.2",
 	"engines": {
 		"node": "^24.16.0 || >=26.0.0"
 	},
