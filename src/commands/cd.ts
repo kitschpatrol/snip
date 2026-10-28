@@ -9,13 +9,13 @@ import { log } from '../log.js'
 export async function cd(libraryPath: string) {
 	libraryPath = untildify(libraryPath)
 
-	if (env.SHELL !== undefined && env.SHELL !== '') {
+	if (env.SHELL === undefined || env.SHELL === '') {
+		log.error(`This command requires your SHELL environment variable to be defined`)
+	} else {
 		await execa(env.SHELL, ['-i'], {
 			cwd: libraryPath,
 			env,
 			stdio: 'inherit',
 		})
-	} else {
-		log.error(`This command requires your SHELL environment variable to be defined`)
 	}
 }

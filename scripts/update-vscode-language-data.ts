@@ -51,24 +51,6 @@ type VSCodeExtensionManifest = {
 	name: string
 }
 
-// TODO get this from a JSON Schema somewhere?
-type VSCodeExtensionInfo = {
-	_links: {
-		git: string
-		html: string
-		self: string
-	}
-	download_url: string | undefined
-	git_url: string
-	html_url: string
-	name: string
-	path: string
-	sha: string
-	size: number
-	type: 'dir' | 'file'
-	url: string
-}
-
 type MarketplaceExtension = {
 	extensionId: string
 	extensionName: string
@@ -84,17 +66,6 @@ type MarketplaceExtension = {
 type MarketplaceExtensionsResponse = {
 	extensions: MarketplaceExtension[]
 	totalCount: number
-}
-
-type RawMarketplaceExtensionsResponse = {
-	results: Array<{
-		extensions: MarketplaceExtension[]
-		resultMetadata: Array<{
-			metadataItems: Array<{
-				count: number
-			}>
-		}>
-	}>
 }
 
 function cleanExtensions(extensions: string[]): string[] {
@@ -144,6 +115,16 @@ async function getExtensions(
 	pageSize = 100,
 	programmingLanguagesCategoryOnly = true,
 ): Promise<MarketplaceExtensionsResponse> {
+	type RawMarketplaceExtensionsResponse = {
+		results: Array<{
+			extensions: MarketplaceExtension[]
+			resultMetadata: Array<{
+				metadataItems: Array<{
+					count: number
+				}>
+			}>
+		}>
+	}
 	const criteria = [
 		// https://github.com/microsoft/vscode/blob/3e47253e4694be3f42c9e173855654a6624409ce/src/vs/platform/extensionManagement/common/extensionGalleryService.ts#L185-L194
 		{ filterType: 8, value: 'Microsoft.VisualStudio.Code' }, // Target
@@ -219,6 +200,24 @@ async function getManifestFromUrl(manifestUrl: string): Promise<VSCodeExtensionM
 async function getProgrammingLanguageIdsFromBundledExtensions(
 	extensionLanguageIds: LanguageMap = new Map(),
 ): Promise<LanguageMap> {
+	// TODO get this from a JSON Schema somewhere?
+	type VSCodeExtensionInfo = {
+		_links: {
+			git: string
+			html: string
+			self: string
+		}
+		download_url: string | undefined
+		git_url: string
+		html_url: string
+		name: string
+		path: string
+		sha: string
+		size: number
+		type: 'dir' | 'file'
+		url: string
+	}
+
 	// Get list of bundled extensions from extensions folder
 
 	const response = await fetch('https://api.github.com/repos/microsoft/vscode/contents/extensions')
