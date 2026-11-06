@@ -1,5 +1,6 @@
 import { cspellConfig } from '@kitschpatrol/cspell-config'
 
 export default cspellConfig({
-	ignorePaths: ['*vscode-language-map.json'],
+	ignorePaths: ['*vscode-language-map.json', '**/changelog.md'],
+	words: ['chagent'],
 })
